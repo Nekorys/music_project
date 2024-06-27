@@ -106,23 +106,16 @@ def get_local_folders():
 
 
 def download_files(service, folder_id, folder_name):
-    results = service.files().list(q=f"'{folder_id}' in parents",
-                                   fields="files(id, name)").execute()
+    results = service.files().list(q=f"'{folder_id}' in parents", fields="files(id, name)").execute()
     items = results.get('files', [])
     if items:
         for item in items:
-            request = service.files().get_media(fileId=item['id'])
-            fh = io.FileIO(f'Songs/{folder_name}/{item['name']}', 'wb')
-            downloader = MediaIoBaseDownload(fh, request)
-            done = False
-            while done is False:
-                status, done = downloader.next_chunk()
+            download_file(service, item['id'], item['name'], folder_name)
     else:
         print('Directory on drive is empty...')
 
 
 def download_file(service, file_id, file_name, folder_name):
-
     request = service.files().get_media(fileId=file_id)
     fh = io.FileIO(f'Songs/{folder_name}/{file_name}', 'wb')
     downloader = MediaIoBaseDownload(fh, request)
@@ -141,6 +134,7 @@ def download_list(wind, delete_flag, folder_list):
             folders_to_remove.remove(r_list['folder'])
         except:
             pass
+
         if r_list['folder'] in [a['folder'] for a in local_list]:
             if r_list['songs']:
                 songs_in_folder = next((item['songs'] for item in local_list if item['folder'] == r_list['folder']), None)
@@ -185,6 +179,7 @@ def upload_list(wind, delete_flag, folder_list):
             folders_to_remove.remove(l_list['folder'])
         except:
             pass
+
         if l_list['folder'] in [a['folder'] for a in remote_list]:
             if l_list['songs']:
                 songs_in_folder = next((item['songs'] for item in remote_list if item['folder'] == l_list['folder']), None)
@@ -192,8 +187,7 @@ def upload_list(wind, delete_flag, folder_list):
                 for song in l_list['songs']:
                     songs_to_remove_tmp = [song_l for song_l in songs_to_remove_tmp if song_l['name'] != song]
                     if song not in [a['name'] for a in songs_in_folder]:
-                        upload_file(service, f'Songs/{l_list['folder']}/{song}', folder_id=next((item['folder_id'] for item in remote_list if item['folder'] == l_list['folder']), None)
-    )
+                        upload_file(service, f'Songs/{l_list['folder']}/{song}', folder_id=next((item['folder_id'] for item in remote_list if item['folder'] == l_list['folder']), None))
                         list_for_upload_songs.append({
                             'name': song,
                             'folder': l_list['folder']
@@ -223,7 +217,7 @@ def upload_file(service, file_path, folder_id='18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3
         file_metadata['parents'] = [folder_id]
 
     media = MediaFileUpload(file_path, resumable=True)
-    file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+    service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
 
 def create_folder(service, folder_name, parent_id='18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'):
@@ -247,7 +241,4 @@ def delete_from_drive(service, file_id):
     except HttpError as error:
         print(f"An error occurred: {error}")
 
-#
-# if __name__ == '__main__':
-#     # upload_list(True)
-#     download_list(True)
+
