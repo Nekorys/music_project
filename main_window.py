@@ -197,7 +197,7 @@ def download_song_window():
     playlist_checkbox = BooleanVar()
     Checkbutton(side_frame, text="Playlist?", variable=playlist_checkbox).grid(row=0, column=1, padx=250, pady=10)
 
-    download_song_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=local_dir_list[folder_list_yt.curselection()[0]], playlist=playlist_checkbox))
+    download_song_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=[local_dir_list, folder_list_yt.curselection()], playlist=playlist_checkbox))
     download_song_btn.grid(row=0, column=0, padx=20, pady=30)
 
 
@@ -219,10 +219,14 @@ def create_thread_youtube_audio_download(target_script, **kwargs):
         pass
 
 
-def youtube_audio_download(video_url, download_dir, playlist):
+def youtube_audio_download(video_url, download_dir_list, playlist):
     global song_list, entry, trash_thread
     entry.delete(0, tk.END)
-
+    try:
+        download_dir = download_dir_list[0][download_dir_list[-1][0]]
+    except:
+        entry.insert(0, 'No folder detected...')
+        return
     try:
         folder_tmp = folder_list.curselection()[0]
     except:
