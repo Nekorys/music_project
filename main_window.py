@@ -606,6 +606,12 @@ def next_music():
 
 
 if __name__ == '__main__':
+    try:
+        shutil.move('_internal/Additional', 'Additional')
+        shutil.move('_internal/Songs', 'Songs')
+        shutil.move('_internal/awthemes-10.4.0', 'awthemes-10.4.0')
+    except:
+        pass
     root = tk.Tk()
     root.resizable(False, False)
     root.geometry('1080x820+10+10')
