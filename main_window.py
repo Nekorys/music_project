@@ -204,6 +204,7 @@ def move_song(new_folder, old_folder, song_name):
 
 
 def cloud_sync_window():
+    global folder_list
     if hasattr(root, 'cloud_sync') and root.cloud_sync:
         root.cloud_sync.destroy()
 
@@ -237,8 +238,8 @@ def cloud_sync_window():
     delete_checkbox.grid(row=1, column=1, padx=0, pady=0, sticky='ns')
     main_frame.columnconfigure(0, weight=1)
     main_frame.columnconfigure(1, weight=1)
-    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync_main.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get()))
-    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync_main.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get()))
+    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync_main.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
+    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync_main.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
     cloud_upload_bnt.grid(row=0, column=0, padx=10, pady=10)
     cloud_download_btn.grid(row=0, column=1, padx=10, pady=10)
 
@@ -293,7 +294,7 @@ def download_song_window():
 
 
 def create_thread_drive_sync(target_script, **kwargs):
-    global playing
+    global playing, folder_list
     try:
         thread_count = 1
         if trash_thread:
