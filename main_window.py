@@ -435,6 +435,11 @@ def delete_folder():
             shutil.rmtree(f'Songs/{current_folder}')
             for folder in os.listdir('Songs'):
                 folder_list.insert('end', folder)
+            try:
+                folder_list.selection_set(0)
+                current_folder = folder_list.get(folder_list.curselection()[0])
+            except:
+                current_folder = ''
 
 
 def delete_song():
