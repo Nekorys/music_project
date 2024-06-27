@@ -9,7 +9,6 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import pygame
 from mutagen.mp3 import MP3
-import argparse
 from moviepy.editor import AudioFileClip
 from pytube import YouTube
 from pytube import Playlist
@@ -33,6 +32,7 @@ progressbar_locked = False
 current_folder = ''
 folder_list = None
 entry = None
+trash_thread = False
 
 
 def main_GUI():
@@ -201,9 +201,6 @@ def move_song(new_folder, old_folder, song_name):
             change_folder()
             if hasattr(root, 'move_song') and root.move_song:
                 root.move_song.destroy()
-    print(new_folder)
-    print(old_folder)
-    print(song_name)
 
 
 def cloud_sync_window():
@@ -298,8 +295,10 @@ def download_song_window():
 def create_thread_drive_sync(target_script, **kwargs):
     global playing
     try:
-        print(threading.active_count())
-        if threading.active_count() == 1:
+        thread_count = 1
+        if trash_thread:
+            thread_count = 2
+        if threading.active_count() <= thread_count:
             try:
                 thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
                 thread.start()
@@ -311,26 +310,28 @@ def create_thread_drive_sync(target_script, **kwargs):
                 thread.start()
                 pygame.mixer.init()
         else:
-            print('More then 1 threads not allowed')
+            pass
     except Exception as e:
         print(e)
 
 
 def create_thread_youtube_audio_download(target_script, **kwargs):
     try:
-        print(threading.active_count())
-        if threading.active_count() <= 5:
+        thread_count = 5
+        if trash_thread:
+            thread_count = 6
+        if threading.active_count() <= thread_count:
             thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
             thread.start()
         else:
-            print('More then 5 threads not allowed')
+            pass
     except Exception as e:
         print(e)
         pass
 
 
 def youtube_audio_download(video_url, download_dir, playlist):
-    global folder_list, song_list, current_folder, entry
+    global folder_list, song_list, current_folder, entry, trash_thread
     entry.delete(0, tk.END)
     try:
         folder_tmp = folder_list.curselection()[0]
@@ -356,8 +357,7 @@ def youtube_audio_download(video_url, download_dir, playlist):
                 except:
                     pass
             except Exception as e:
-                print(e)
-                print("Failed to download audio")
+                print(f"Failed to download audio - {e}")
     else:
         try:
             video = YouTube(video_url)
@@ -378,9 +378,8 @@ def youtube_audio_download(video_url, download_dir, playlist):
                 pass
         except Exception as e:
             print(e)
-            print("Failed to download audio")
-
-    print("audio was downloaded successfully")
+            print(f"Failed to download audio - {e}")
+    trash_thread = True
 
 
 def create_directory_window():
@@ -561,7 +560,6 @@ def play_music(event=None):
             paused = False
             play_time()
     except Exception as e:
-        print(current_song)
         print(e)
         pass
 
