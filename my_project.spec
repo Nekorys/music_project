@@ -8,7 +8,7 @@ a = Analysis(
         ('awthemes-10.4.0', 'awthemes-10.4.0'),
         ('Additional', 'Additional'),
         ('Songs', 'Songs'),
-        ('drive_sync_main.py', 'drive_sync_main.py')
+        ('drive_sync_main.py', '.')
     ],
     hiddenimports=[],
     hookspath=[],
@@ -32,6 +32,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=True,
+    icon=None,
 )
 
 coll = COLLECT(
@@ -40,7 +41,8 @@ coll = COLLECT(
     a.zipfiles,
     a.datas,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     name='my_project',
+    collect_subdir=False,
 )
