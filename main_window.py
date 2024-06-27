@@ -12,7 +12,7 @@ from moviepy.editor import AudioFileClip
 from pytube import YouTube
 from pytube import Playlist
 import shutil
-import drive_sync_main
+import drive_sync
 
 current_song = ''
 current_folder = ''
@@ -453,8 +453,8 @@ def cloud_sync_window():
     root.on_bnt_image = ImageTk.PhotoImage(on_image)
     root.off_btn_image = ImageTk.PhotoImage(off_image)
 
-    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync_main.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
-    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync_main.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
+    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
+    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
     delete_checkbox = tk.Checkbutton(main_frame, image=root.off_btn_image, selectimage=root.on_bnt_image, indicatoron=False, onvalue=1, offvalue=0, variable=delete_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
 
     cloud_upload_bnt.grid(row=0, column=0, padx=10, pady=10)

@@ -8,7 +8,7 @@ a = Analysis(
         ('awthemes-10.4.0', 'awthemes-10.4.0'),
         ('Additional', 'Additional'),
         ('Songs', 'Songs'),
-        ('drive_sync_main.py', '.')
+        ('drive_sync.py', '.')
     ],
     hiddenimports=[],
     hookspath=[],
