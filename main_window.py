@@ -317,6 +317,7 @@ def create_thread_drive_sync(target_script, **kwargs):
 
 
 def create_thread_youtube_audio_download(target_script, **kwargs):
+    global entry
     try:
         thread_count = 5
         if trash_thread:
@@ -325,6 +326,8 @@ def create_thread_youtube_audio_download(target_script, **kwargs):
             thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
             thread.start()
         else:
+            entry.delete(0, tk.END)
+            entry.insert(0, 'Threading Error')
             pass
     except Exception as e:
         print(e)
