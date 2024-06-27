@@ -1,4 +1,3 @@
-import shutil
 import threading
 import time
 from tkinter import *
@@ -36,7 +35,7 @@ trash_thread = False
 
 
 def main_GUI():
-    global current_song, song_list, songs, progress_info, progressbar, folder_list
+    global song_list, progress_info, progressbar, folder_list
     root.title('Music Project')
     root.iconbitmap('Additional/icons/icons8-music-64.png')
     root.tk.call('lappend', 'auto_path', os.getcwd())
@@ -140,7 +139,6 @@ def main_GUI():
 
 
 def move_song_window():
-    global songs, song_list, folder_list
     try:
         song_name = songs[song_list.curselection()[0]]
         old_folder = os.listdir('Songs')[folder_list.curselection()[0]]
@@ -204,7 +202,6 @@ def move_song(new_folder, old_folder, song_name):
 
 
 def cloud_sync_window():
-    global folder_list
     if hasattr(root, 'cloud_sync') and root.cloud_sync:
         root.cloud_sync.destroy()
 
@@ -294,7 +291,7 @@ def download_song_window():
 
 
 def create_thread_drive_sync(target_script, **kwargs):
-    global playing, folder_list
+    global playing
     try:
         thread_count = 1
         if trash_thread:
@@ -335,7 +332,7 @@ def create_thread_youtube_audio_download(target_script, **kwargs):
 
 
 def youtube_audio_download(video_url, download_dir, playlist):
-    global folder_list, song_list, current_folder, entry, trash_thread
+    global song_list, entry, trash_thread
     entry.delete(0, tk.END)
     try:
         folder_tmp = folder_list.curselection()[0]
@@ -443,7 +440,7 @@ def delete_folder():
 
 
 def delete_song():
-    global current_song, current_folder, songs, song_list, playing
+    global current_song, song_list, playing
     try:
         if playing:
             pygame.mixer.music.stop()
@@ -504,7 +501,7 @@ def lock_progressbar(event):
 
 
 def progress(event):
-    global current_time, song_length, progress_info, progressbar, current_time_static, paused, playing, progressbar_locked
+    global current_time, progress_info, progressbar, current_time_static, paused, playing, progressbar_locked
     try:
         value = progressbar.get()
         current_time_static = float(value) * 1000
@@ -522,7 +519,7 @@ def progress(event):
 
 
 def play_time():
-    global current_time, song_length, progress_info, progressbar, playing, current_time_static, progressbar_locked
+    global current_time, progress_info, progressbar
     if playing:
         current_time = current_time_static + pygame.mixer.music.get_pos()
         progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(current_time/1000)))}/{str(time.strftime('%M:%S', time.gmtime(song_length)))}')
@@ -534,7 +531,7 @@ def play_time():
 
 
 def volume_change(value):
-    global muted, vol_tmp
+    global vol_tmp
     if not muted:
         if not pygame.mixer.music.get_busy():
             vol_tmp = float(value) / 100
@@ -546,7 +543,7 @@ def volume_change(value):
 
 
 def play_music(event=None):
-    global current_song, paused, playing, song_length, current_time_static, vol_tmp, current_folder, muted
+    global current_song, paused, playing, song_length, current_time_static
     try:
         if playing and not paused and current_song == songs[song_list.curselection()[0]]:
             pygame.mixer.music.pause()
@@ -574,7 +571,7 @@ def play_music(event=None):
 
 
 def prev_music():
-    global song_list, songs, playing, paused, current_song, song_length, current_time_static, current_folder
+    global song_list, current_song, song_length, current_time_static
     try:
         try:
             song_list.selection_set(song_list.curselection()[0] - 1)
@@ -593,7 +590,7 @@ def prev_music():
 
 
 def next_music():
-    global song_list, songs, playing, paused, current_song, song_length, current_time_static, current_folder
+    global song_list, current_song, song_length, current_time_static
     try:
         if songs[song_list.curselection()[0]] == songs[-1]:
             return
