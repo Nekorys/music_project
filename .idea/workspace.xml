@@ -4,287 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13be3603-da1e-4da9-88c6-de261db373e6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/music_project.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/LICENSE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awarc.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awblack.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awbreeze.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awbreezedark.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awclearlooks.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awdark.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awlight.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awtemplate.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awthemes.n7" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awthemes.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/awwinxpblue.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/colorutils.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/demoscaled.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/demoscaledb.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/demottk.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-left-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-up-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/chevron/arrow-up-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-left-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/open/arrow-up-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-left-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-left-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-right-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-up-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/arrow-up-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid-bg/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-left-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/arrow/solid/arrow-up-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-accent-gradient/button-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-accent-gradient/button-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-accent-gradient/button-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-accent-gradient/button-p.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-accent-gradient/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-af-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-af.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-f.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/button-p.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-flat/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-gradient/button-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-gradient/button-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-gradient/button-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/button/roundedrect-gradient/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-sa-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check-rev/cb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-sa-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-check/cb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/roundedrect-square/cb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-check-gradient/cb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-check-gradient/cb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-check-gradient/cb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-check-gradient/cb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-check-gradient/cb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-x/cb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-x/cb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-x/cb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-x/cb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/checkbutton/square-x/cb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-entry-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-entry-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-entry-f.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-entry-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/combo-entry-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/rounded/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/combo-arrow-down-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/combo-arrow-down-d-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/combo-arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/combo-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/combo-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/combobox/solid-bg/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/empty/empty/empty.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/entry-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/entry-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/entry-f.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/entry-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/entry-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/entry/roundedrect/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/labelframe/square/labelframe-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/labelframe/square/labelframe-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/chevron/mb-arrow-down-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/chevron/mb-arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/chevron/mb-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/chevron/mb-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/solid/mb-arrow-down-d-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/solid/mb-arrow-down-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/solid/mb-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/menubutton/solid/mb-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/notebook-tab-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/notebook-tab-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/notebook-tab-h.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/notebook-tab-i-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/notebook-tab-i.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-dark/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/notebook-tab-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/notebook-tab-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/notebook-tab-h.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/notebook-tab-i-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/notebook-tab-i.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light-accent/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/notebook-tab-a.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/notebook-tab-d.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/notebook-tab-h.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/notebook-tab-i-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/notebook-tab-i.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/notebook/roundedtop-light/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/slider-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/slider-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/slider-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/slider-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-bord/slider-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/diag-mask.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-vn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect-diag/slider-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/slider-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/slider-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/slider-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/slider-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/slider-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/trough-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/trough-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/trough-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/trough-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rect/trough-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/slider-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/slider-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/slider-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/slider-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-vn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/rounded-line/trough-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/progressbar/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-gradient/rb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-gradient/rb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-gradient/rb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-gradient/rb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-gradient/rb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-hlbg/rb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle-rev/rb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-sa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-ua.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/circle-circle/rb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/octagon-circle/rb-sd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/octagon-circle/rb-sn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/octagon-circle/rb-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/octagon-circle/rb-ud.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/radiobutton/octagon-circle/rb-un.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle-rev/scale-ha.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle-rev/scale-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle-rev/scale-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle/scale-ha.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle/scale-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/circle/scale-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-bord-grip/scale-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-bord-grip/scale-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-bord-grip/scale-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-bord-grip/scale-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-bord-grip/scale-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-hd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-hn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-hn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-vn-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-trough-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-vd.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/scale-vn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scale/rect-narrow/settings.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scrollbar-grip/circle/sb-slider-h-grip-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scrollbar-grip/circle/sb-slider-h-grip.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scrollbar-grip/circle/sb-slider-v-grip-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/scrollbar-grip/circle/sb-slider-v-grip.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/sizegrip/circle/sizegrip-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/sizegrip/circle/sizegrip.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/chevron/tree-arrow-down-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/chevron/tree-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/chevron/tree-arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/chevron/tree-arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/chevron/tree-arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-right-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/open/tree-arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-right-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/plusminus-box/tree-arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-down-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-down-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-down-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-right-n-base.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-right-n.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/i/awthemes/treeview/solid/tree-arrow-right-sn.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/awthemes-10.4.0/pkgIndex.tcl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_window.py" afterDir="false" />
-    </list>
+    <list default="true" id="13be3603-da1e-4da9-88c6-de261db373e6" name="Changes" comment="project init" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -312,7 +32,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.1.executor": "Run",
+    "Python.drive_sync (1).executor": "Run",
+    "Python.drive_sync.executor": "Run",
+    "Python.drive_sync_main (1).executor": "Run",
+    "Python.drive_sync_main.executor": "Run",
     "Python.main_window.executor": "Run",
+    "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/Lenovo/PycharmProjects/music_project"
@@ -321,6 +46,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Lenovo\PycharmProjects\music_project" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\PycharmProjects\music_project\Additional" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main_window">
@@ -338,6 +66,72 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="drive_sync_main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="music_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/drive_sync_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="drive_sync_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="music_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Lenovo\PycharmProjects\music_project\drive_sync_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="drive_sync_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="music_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Lenovo\PycharmProjects\music_project\drive_sync_main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -371,6 +165,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main_window" />
+        <item itemvalue="Python.drive_sync_main (1)" />
+        <item itemvalue="Python.drive_sync_main" />
+        <item itemvalue="Python.drive_sync_main" />
         <item itemvalue="Python.1" />
       </list>
     </recent_temporary>
@@ -391,6 +188,36 @@
       <option name="presentableId" value="Default" />
       <updated>1719080957918</updated>
     </task>
+    <task id="LOCAL-00001" summary=".gitignore init">
+      <option name="closed" value="true" />
+      <created>1719450080790</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719450080790</updated>
+    </task>
+    <task id="LOCAL-00002" summary="project init">
+      <option name="closed" value="true" />
+      <created>1719450259903</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719450259903</updated>
+    </task>
+    <task id="LOCAL-00003" summary="project init">
+      <option name="closed" value="true" />
+      <created>1719450293629</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719450293629</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value=".gitignore init" />
+    <MESSAGE value="project init" />
+    <option name="LAST_COMMIT_MESSAGE" value="project init" />
   </component>
 </project>
