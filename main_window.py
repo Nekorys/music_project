@@ -641,6 +641,8 @@ def volume_change(value):
 
 if __name__ == '__main__':
     try:
+        if not os.path.exists('Songs'):
+            os.makedirs('Songs')
         shutil.move('_internal/Additional', 'Additional')
         shutil.move('_internal/Songs', 'Songs')
         shutil.move('_internal/awthemes-10.4.0', 'awthemes-10.4.0')
