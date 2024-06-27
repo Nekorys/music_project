@@ -197,8 +197,8 @@ def download_song_window():
     playlist_checkbox = BooleanVar()
     Checkbutton(side_frame, text="Playlist?", variable=playlist_checkbox).grid(row=0, column=1, padx=250, pady=10)
 
-    create_dir_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=local_dir_list[folder_list_yt.curselection()[0]], playlist=playlist_checkbox))
-    create_dir_btn.grid(row=0, column=0, padx=20, pady=30)
+    download_song_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=local_dir_list[folder_list_yt.curselection()[0]], playlist=playlist_checkbox))
+    download_song_btn.grid(row=0, column=0, padx=20, pady=30)
 
 
 def create_thread_youtube_audio_download(target_script, **kwargs):
