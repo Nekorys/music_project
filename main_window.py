@@ -1,3 +1,4 @@
+import random
 import threading
 import time
 from tkinter import *
@@ -240,7 +241,7 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
                 info = video.vid_info
                 full_title = info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']
                 downloaded_file = audio.download(f'Songs/{download_dir}')
-                mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
+                mp3_file = f'Songs/{download_dir}/{full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')}' + '.mp3'
                 audio_clip = AudioFileClip(downloaded_file)
                 audio_clip.write_audiofile(mp3_file)
                 audio_clip.close()
@@ -255,12 +256,12 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
                 print(f"Failed to download audio - {e}")
     else:
         try:
-            video = YouTube(video_url)
+            video = YouTube(video_url, use_oauth=True)
             audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
             info = video.vid_info
             full_title = info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']
             downloaded_file = audio.download(f'Songs/{download_dir}')
-            mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
+            mp3_file = f'Songs/{download_dir}/{full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')}' + '.mp3'
             audio_clip = AudioFileClip(downloaded_file)
             audio_clip.write_audiofile(mp3_file)
             audio_clip.close()
@@ -543,14 +544,21 @@ def next_music():
     global song_list, current_song, song_length, current_time_static
     try:
         if songs[song_list.curselection()[0]] == songs[-1]:
-            return
-        try:
-            song_list.selection_set(song_list.curselection()[0] + 1)
-            song_list.selection_clear(song_list.curselection()[0])
-            current_song = songs[song_list.curselection()[0]]
-        except:
-            song_list.selection_set(len(songs)-1)
-            pass
+            try:
+                song_list.selection_clear(song_list.curselection()[0])
+                song_list.selection_set(0)
+                current_song = songs[song_list.curselection()[0]]
+            except:
+                song_list.selection_set(len(songs)-1)
+                pass
+        else:
+            try:
+                song_list.selection_set(song_list.curselection()[0] + 1)
+                song_list.selection_clear(song_list.curselection()[0])
+                current_song = songs[song_list.curselection()[0]]
+            except:
+                song_list.selection_set(len(songs)-1)
+                pass
         if playing and not paused:
             pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
             pygame.mixer.music.play(loops=0)
@@ -586,6 +594,7 @@ def change_folder(evt=None):
         if ext == '.mp3':
             songs.append(song)
 
+        random.shuffle(songs)
     for song in songs:
         song_list.insert('end', song.replace('.mp3', ''))
     if evt:

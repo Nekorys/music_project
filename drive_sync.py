@@ -51,7 +51,7 @@ def get_google_drive_folders():
 
         if not items:
             print('No files found.')
-            return
+            return [], service
 
         for item in items:
             song_list = []
