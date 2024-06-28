@@ -124,7 +124,7 @@ def download_file(service, file_id, file_name, folder_name):
         status, done = downloader.next_chunk()
 
 
-def download_list(wind, delete_flag, folder_list):
+def download_list(wind, delete_flag, folder_list, songs_list):
     remote_list, service = get_google_drive_folders()
     local_list = get_local_folders()
     folders_to_remove = [a['folder'] for a in local_list]
@@ -163,11 +163,12 @@ def download_list(wind, delete_flag, folder_list):
                 os.remove(f'Songs/{list(song_to_remove)[0]}/{s_to_remove}')
     wind.destroy()
     folder_list.delete(0, 'end')
+    songs_list.delete(0, 'end')
     for folder in os.listdir('Songs'):
         folder_list.insert('end', folder)
 
 
-def upload_list(wind, delete_flag, folder_list):
+def upload_list(wind, delete_flag, folder_list, songs_list):
     remote_list, service = get_google_drive_folders()
     local_list = get_local_folders()
     folders_to_remove = [a['folder'] for a in remote_list]
@@ -207,6 +208,7 @@ def upload_list(wind, delete_flag, folder_list):
             delete_from_drive(service, file_to_delete['id'])
     wind.destroy()
     folder_list.delete(0, 'end')
+    songs_list.delete(0, 'end')
     for folder in os.listdir('Songs'):
         folder_list.insert('end', folder)
 

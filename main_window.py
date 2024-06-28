@@ -22,12 +22,14 @@ playing = False
 muted = False
 progressbar_locked = False
 trash_thread = False
+shuffle_flag = False
+refresh_songs_after_update = False
 folder_list = None
 entry = None
 progress_info = None
 progressbar = None
 song_list = []
-songs = []
+songs = {}
 song_length = 0
 current_time = 0
 current_time_static = 0
@@ -36,7 +38,7 @@ pygame.mixer.init()
 
 
 def main_GUI():
-    global song_list, progress_info, progressbar, folder_list
+    global song_list, progress_info, progressbar, folder_list, songs
 
     root.title('Music Project')
     root.iconbitmap('Additional/icons/music-player.ico')
@@ -82,6 +84,12 @@ def main_GUI():
 
     for folder in os.listdir('Songs'):
         folder_list.insert('end', folder)
+        songs_tmp = []
+        for song in os.listdir(f'Songs/{folder}'):
+            name, ext = os.path.splitext(song)
+            if ext == '.mp3':
+                songs_tmp.append(song)
+        songs[folder] = songs_tmp
     folder_list.bind('<<ListboxSelect>>', change_folder)
 
     scrollbar_folder = Scrollbar(middle_left_frame)
@@ -221,7 +229,7 @@ def create_thread_youtube_audio_download(target_script, **kwargs):
 
 
 def youtube_audio_download(video_url, download_dir_list, playlist):
-    global song_list, entry, trash_thread
+    global song_list, entry, trash_thread, songs
     entry.delete(0, tk.END)
     try:
         download_dir = download_dir_list[0][download_dir_list[-1][0]]
@@ -247,9 +255,10 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
                 audio_clip.close()
                 os.remove(downloaded_file)
                 try:
+                    songs[download_dir].append(full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '') + '.mp3')
+                    songs[download_dir] = list(set(songs[download_dir]))
                     if folder_tmp == folder_list.curselection()[0]:
                         change_folder()
-                        song_list.selection_set(0)
                 except:
                     pass
             except Exception as e:
@@ -267,9 +276,10 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
             audio_clip.close()
             os.remove(downloaded_file)
             try:
+                songs[download_dir].append(full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '') + '.mp3')
+                songs[download_dir] = list(set(songs[download_dir]))
                 if folder_tmp == folder_list.curselection()[0]:
                     change_folder()
-                    song_list.selection_set(0)
             except:
                 pass
         except Exception as e:
@@ -279,25 +289,23 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
 
 
 def delete_song():
-    global current_song, song_list, playing
+    global current_song, song_list, playing, songs
     try:
-        if playing:
+        if playing and songs[current_folder][song_list.curselection()[0]] == current_song:
             pygame.mixer.music.stop()
             pygame.mixer.quit()
             playing = False
-        just_tmp = song_list.curselection()[0]
-        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[song_list.curselection()[0]]}?', type=messagebox.YESNO)
+        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[current_folder][song_list.curselection()[0]]}?', type=messagebox.YESNO)
         if answer == 'no':
             pygame.mixer.init()
             return
-        os.remove(f'Songs/{current_folder}/{songs[song_list.curselection()[0]]}')
+        os.remove(f'Songs/{current_folder}/{songs[current_folder][song_list.curselection()[0]]}')
         pygame.mixer.init()
         try:
+            songs[current_folder].remove(songs[current_folder][song_list.curselection()[0]])
             change_folder()
-            song_list.selection_set(just_tmp)
-            current_song = songs[just_tmp]
         except:
-            song_list.selection_set(len(songs) - 1)
+            song_list.selection_set(len(songs[current_folder]) - 1)
             pass
     except:
         pass
@@ -305,7 +313,7 @@ def delete_song():
 
 def move_song_window():
     try:
-        song_name = songs[song_list.curselection()[0]]
+        song_name = songs[current_folder][song_list.curselection()[0]]
         old_folder = os.listdir('Songs')[folder_list.curselection()[0]]
 
         if hasattr(root, 'move_song') and root.move_song:
@@ -349,9 +357,12 @@ def move_song_window():
 
 
 def move_song(new_folder, old_folder, song_name):
-    global playing
+    global playing, songs
     try:
         shutil.move(f'Songs/{old_folder}/{song_name}', f'Songs/{new_folder}/{song_name}')
+        songs[old_folder].remove(song_name)
+        songs[new_folder].append(song_name)
+        songs[new_folder] = list(set(songs[new_folder]))
         change_folder()
 
         if hasattr(root, 'move_song') and root.move_song:
@@ -364,6 +375,9 @@ def move_song(new_folder, old_folder, song_name):
             playing = False
             pygame.mixer.init()
             shutil.move(f'Songs/{old_folder}/{song_name}', f'Songs/{new_folder}/{song_name}')
+            songs[old_folder].remove(song_name)
+            songs[new_folder].append(song_name)
+            songs[new_folder] = list(set(songs[new_folder]))
             change_folder()
 
             if hasattr(root, 'move_song') and root.move_song:
@@ -398,10 +412,11 @@ def create_directory_window():
 
 
 def create_directory(path):
-    global folder_list
+    global folder_list, songs
     directory = f'Songs/{path}'
     if not os.path.exists(directory):
         os.makedirs(directory)
+        songs[path] = []
         folder_list.delete(0, 'end')
         for folder in os.listdir('Songs'):
             folder_list.insert('end', folder)
@@ -409,17 +424,25 @@ def create_directory(path):
 
 
 def delete_folder():
-    global folder_list, current_folder
+    global folder_list, current_folder, playing
     if current_folder != '':
         answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the folder\n{current_folder}?', type=messagebox.YESNO)
         if answer == 'yes':
             folder_list.delete(0, 'end')
-            shutil.rmtree(f'Songs/{current_folder}')
+            try:
+                shutil.rmtree(f'Songs/{current_folder}')
+            except:
+                pygame.mixer.music.stop()
+                playing = False
+                pygame.mixer.quit()
+                shutil.rmtree(f'Songs/{current_folder}')
+                pygame.mixer.init()
             for folder in os.listdir('Songs'):
                 folder_list.insert('end', folder)
             try:
                 folder_list.selection_set(0)
                 current_folder = folder_list.get(folder_list.curselection()[0])
+                change_folder()
             except:
                 current_folder = ''
 
@@ -458,8 +481,8 @@ def cloud_sync_window():
     root.on_bnt_image = ImageTk.PhotoImage(on_image)
     root.off_btn_image = ImageTk.PhotoImage(off_image)
 
-    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
-    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list))
+    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list))
+    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list))
     delete_checkbox = tk.Checkbutton(main_frame, image=root.off_btn_image, selectimage=root.on_bnt_image, indicatoron=False, onvalue=1, offvalue=0, variable=delete_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
 
     cloud_upload_bnt.grid(row=0, column=0, padx=10, pady=10)
@@ -471,24 +494,24 @@ def cloud_sync_window():
 
 
 def create_thread_drive_sync(target_script, **kwargs):
-    global playing
+    global playing, refresh_songs_after_update
     try:
         thread_count = 1
         if trash_thread:
             thread_count = 2
         if threading.active_count() <= thread_count:
             try:
-                thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
-                thread.start()
-            except:
                 pygame.mixer.music.stop()
                 pygame.mixer.quit()
                 playing = False
                 thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
                 thread.start()
                 pygame.mixer.init()
+            except:
+                pass
         else:
             pass
+        refresh_songs_after_update = True
     except Exception as e:
         print(e)
 
@@ -499,7 +522,7 @@ def prev_music():
         try:
             song_list.selection_set(song_list.curselection()[0] - 1)
             song_list.selection_clear(song_list.curselection()[0] + 1)
-            current_song = songs[song_list.curselection()[0]]
+            current_song = songs[current_folder][song_list.curselection()[0]]
         except:
             pass
         if playing and not paused:
@@ -515,18 +538,18 @@ def prev_music():
 def play_music(event=None):
     global current_song, paused, playing, song_length, current_time_static
     try:
-        if playing and not paused and current_song == songs[song_list.curselection()[0]]:
+        if playing and not paused and current_song == songs[current_folder][song_list.curselection()[0]]:
             pygame.mixer.music.pause()
             playing = False
             paused = True
-        elif not playing and paused and current_song == songs[song_list.curselection()[0]]:
+        elif not playing and paused and current_song == songs[current_folder][song_list.curselection()[0]]:
             pygame.mixer.music.unpause()
             paused = False
             playing = True
             play_time()
         else:
             current_time_static = 0
-            current_song = songs[song_list.curselection()[0]]
+            current_song = songs[current_folder][song_list.curselection()[0]]
             pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
             pygame.mixer.music.play(loops=0)
             if not muted:
@@ -543,21 +566,21 @@ def play_music(event=None):
 def next_music():
     global song_list, current_song, song_length, current_time_static
     try:
-        if songs[song_list.curselection()[0]] == songs[-1]:
+        if songs[current_folder][song_list.curselection()[0]] == songs[current_folder][-1]:
             try:
                 song_list.selection_clear(song_list.curselection()[0])
                 song_list.selection_set(0)
-                current_song = songs[song_list.curselection()[0]]
+                current_song = songs[current_folder][song_list.curselection()[0]]
             except:
-                song_list.selection_set(len(songs)-1)
+                song_list.selection_set(len(songs[current_folder])-1)
                 pass
         else:
             try:
                 song_list.selection_set(song_list.curselection()[0] + 1)
                 song_list.selection_clear(song_list.curselection()[0])
-                current_song = songs[song_list.curselection()[0]]
+                current_song = songs[current_folder][song_list.curselection()[0]]
             except:
-                song_list.selection_set(len(songs)-1)
+                song_list.selection_set(len(songs[current_folder])-1)
                 pass
         if playing and not paused:
             pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
@@ -570,7 +593,20 @@ def next_music():
 
 
 def mute_song():
-    global vol_tmp, muted
+    global vol_tmp, muted, songs, shuffle_flag
+    if not shuffle_flag:
+        random.shuffle(songs[current_folder])
+        shuffle_flag = True
+        change_folder()
+    else:
+        songs_tmp = []
+        for song in os.listdir(f'Songs/{current_folder}'):
+            name, ext = os.path.splitext(song)
+            if ext == '.mp3':
+                songs_tmp.append(song)
+        songs[current_folder] = songs_tmp
+        shuffle_flag = False
+        change_folder()
     if not muted:
         vol_tmp = pygame.mixer.music.get_volume()
         pygame.mixer.music.set_volume(0)
@@ -581,23 +617,28 @@ def mute_song():
 
 
 def change_folder(evt=None):
-    global songs, song_list, current_folder
-    songs = []
+    global songs, song_list, current_folder, refresh_songs_after_update
     song_list.delete(0, 'end')
     if evt:
         w = evt.widget
         index = int(w.curselection()[0])
         value = w.get(index)
         current_folder = value
-    for song in os.listdir(f'Songs/{current_folder}'):
-        name, ext = os.path.splitext(song)
-        if ext == '.mp3':
-            songs.append(song)
 
-        random.shuffle(songs)
-    for song in songs:
+    if refresh_songs_after_update:
+        for folder in os.listdir('Songs'):
+            songs_tmp = []
+            for song in os.listdir(f'Songs/{folder}'):
+                name, ext = os.path.splitext(song)
+                if ext == '.mp3':
+                    songs_tmp.append(song)
+            songs[folder] = songs_tmp
+
+    for song in songs[current_folder]:
         song_list.insert('end', song.replace('.mp3', ''))
-    if evt:
+    try:
+        song_list.selection_set(songs[current_folder].index(current_song))
+    except:
         song_list.selection_set(0)
 
 
@@ -618,7 +659,7 @@ def progress(event):
             playing = True
             play_music()
         progressbar.config(from_=0, to=song_length, value=float(value))
-        progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(float(value))))}/{str(time.strftime('%M:%S', time.gmtime(song_length)))}')
+        progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(float(value))))}/{str(time.strftime('%M:%S', time.gmtime(song_length-1)))}')
         progressbar_locked = False
     except:
         pass
@@ -628,7 +669,7 @@ def play_time():
     global current_time, progress_info, progressbar
     if playing:
         current_time = current_time_static + pygame.mixer.music.get_pos()
-        progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(current_time/1000)))}/{str(time.strftime('%M:%S', time.gmtime(song_length)))}')
+        progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(current_time/1000)))}/{str(time.strftime('%M:%S', time.gmtime(song_length-1)))}')
         if not progressbar_locked:
             progressbar.config(from_=0, to=song_length, value=current_time / 1000)
         if str(time.strftime('%M:%S', time.gmtime(current_time/1000))) == str(time.strftime('%M:%S', time.gmtime(song_length-1))):
