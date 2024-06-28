@@ -631,7 +631,7 @@ def play_time():
         progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(current_time/1000)))}/{str(time.strftime('%M:%S', time.gmtime(song_length)))}')
         if not progressbar_locked:
             progressbar.config(from_=0, to=song_length, value=current_time / 1000)
-        if str(time.strftime('%M:%S', time.gmtime(current_time/1000))) == str(time.strftime('%M:%S', time.gmtime(song_length))):
+        if str(time.strftime('%M:%S', time.gmtime(current_time/1000))) == str(time.strftime('%M:%S', time.gmtime(song_length-1))):
             next_music()
         progress_info.after(1000, play_time)
 
