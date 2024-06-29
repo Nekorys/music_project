@@ -15,19 +15,22 @@ from pytube import Playlist
 import shutil
 import drive_sync
 
-current_song = ''
-current_folder = ''
+sellected_folder = ''
+current_palying_song = {}
 paused = False
 playing = False
 muted = False
 progressbar_locked = False
 trash_thread = False
-shuffle_flag = False
 refresh_songs_after_update = False
+shuffle_flag_dict = {}
+repeat_flag = None
 folder_list = None
 entry = None
 progress_info = None
+volume_info = None
 progressbar = None
+shuffle_button = None
 song_list = []
 songs = {}
 song_length = 0
@@ -38,7 +41,7 @@ pygame.mixer.init()
 
 
 def main_GUI():
-    global song_list, progress_info, progressbar, folder_list, songs
+    global song_list, progress_info, progressbar, folder_list, songs, shuffle_button, repeat_flag, volume_info
 
     root.title('Music Project')
     root.iconbitmap('Additional/icons/music-player.ico')
@@ -50,15 +53,19 @@ def main_GUI():
     style.theme_use('awdark')
     style.configure('My.TButton', font=('Miriam Libre', 14, 'bold'), borderwidth='0')
     style.map('My.TButton', foreground=[('active', '!disabled', 'blue'), ('!disabled', 'lime')], background=[('active', 'black')])
+    bg_color = style.lookup('TFrame', 'background')
 
     upper_main_frame = LabelFrame(root)
     upper_main_frame.place(relx=0, rely=0, relwidth=1, relheight=.15)
 
-    middle_left_frame = LabelFrame(root, text='Folders', padding=5)
-    middle_left_frame.place(relx=0, rely=.15, relwidth=.3, relheight=.75)
+    middle_main_frame = LabelFrame(root)
+    middle_main_frame.place(relx=0, rely=.15, relwidth=1, relheight=.78)
 
-    middle_right_frame = LabelFrame(root, text='Songs', padding=5)
-    middle_right_frame.place(relx=.3, rely=.15, relwidth=.7, relheight=.75)
+    middle_left_frame = Label(middle_main_frame, text='Folders', padding=5)
+    middle_left_frame.place(relx=0, rely=0, relwidth=.3, relheight=1)
+
+    middle_right_frame = Label(middle_main_frame, text='Songs', padding=5)
+    middle_right_frame.place(relx=.3, rely=0, relwidth=.7, relheight=1)
 
     middle_left_frame.columnconfigure(0, weight=1)
     middle_left_frame.rowconfigure(0, weight=1)
@@ -66,8 +73,11 @@ def main_GUI():
     middle_right_frame.columnconfigure(0, weight=1)
     middle_right_frame.rowconfigure(0, weight=1)
 
-    lower_main_frame = LabelFrame(root)
-    lower_main_frame.place(relx=0, rely=.9, relwidth=1, relheight=.1)
+    lower_main_frame = Label(root)
+    lower_main_frame.place(relx=0, rely=.93, relwidth=.22, relheight=.07)
+
+    lower_side_frame = Label(root)
+    lower_side_frame.place(relx=.22, rely=.93, relwidth=.78, relheight=.07)
 
     folder_list = Listbox(middle_left_frame, fg='white', selectbackground='lime', selectforeground='black', exportselection=False, font=('Miriam Libre', 12))
     folder_list.grid(row=0, column=0, padx=0, pady=0, sticky='news')
@@ -110,6 +120,11 @@ def main_GUI():
     next_image = Image.open('Additional/icons/next-track.png').resize((40, 40))
     volume_image = Image.open('Additional/icons/sound-button.png').resize((40, 40))
 
+    shuffle_image = Image.open('Additional/icons/shuffle.png').resize((25, 25))
+    unshuffle_image = Image.open('Additional/icons/unshuffle.png').resize((25, 25))
+    repeat_on_image = Image.open('Additional/icons/repeat_on.png').resize((30, 30))
+    repeat_off_image = Image.open('Additional/icons/repeat_off.png').resize((30, 30))
+
     root.add_new_song_btn_image = ImageTk.PhotoImage(add_new_song_image)
     root.delete_song_btn_image = ImageTk.PhotoImage(delete_song_image)
     root.move_song_btn_image = ImageTk.PhotoImage(move_song_image)
@@ -121,6 +136,11 @@ def main_GUI():
     root.play_btn_image = ImageTk.PhotoImage(play_image)
     root.next_btn_image = ImageTk.PhotoImage(next_image)
     root.volume_btn_image = ImageTk.PhotoImage(volume_image)
+
+    root.shuffle_btn_image = ImageTk.PhotoImage(shuffle_image)
+    root.unshuffle_btn_image = ImageTk.PhotoImage(unshuffle_image)
+    root.repeat_on_btn_image = ImageTk.PhotoImage(repeat_on_image)
+    root.repeat_off_btn_image = ImageTk.PhotoImage(repeat_off_image)
 
     add_new_song_btn = Button(upper_main_frame, image=root.add_new_song_btn_image, command=lambda: download_song_window())
     delete_song_btn = Button(upper_main_frame, image=root.delete_song_btn_image, command=delete_song)
@@ -141,23 +161,36 @@ def main_GUI():
     delete_folder_btn.grid(row=0, column=4, padx=10, pady=10)
     sync_btn.grid(row=0, column=5, padx=10, pady=10)
 
-    previous_btn.grid(row=0, column=0, padx=0, pady=0)
-    next_btn.grid(row=0, column=2, padx=0, pady=0)
-    play_btn.grid(row=0, column=1, padx=0, pady=0)
-    volume_btn.grid(row=0, column=3, padx=10, pady=0)
+    previous_btn.grid(row=0, column=0, padx=0, pady=2)
+    next_btn.grid(row=0, column=2, padx=0, pady=2)
+    play_btn.grid(row=0, column=1, padx=0, pady=2)
+    volume_btn.grid(row=0, column=3, padx=11, pady=2)
 
-    progress_info = Label(lower_main_frame, text='00:00/00:00', foreground='lime', font=('Miriam Libre', 10))
-    progress_info.grid(row=0, column=5, padx=10, pady=0, sticky='s')
+    progress_info = Label(lower_side_frame, text='00:00/00:00', foreground='lime', font=('Miriam Libre', 12))
+    progress_info.grid(row=0, column=1, padx=10, pady=7, sticky='es')
 
-    progressbar = Scale(lower_main_frame, from_=0, to=100, orient=HORIZONTAL, value=0, length=570)
+    volume_info = Label(lower_side_frame, text=f'Vol: {int(vol_tmp*100)}', foreground='lime', font=('Miriam Libre', 12))
+    volume_info.grid(row=0, column=0, padx=10, pady=7, sticky='ws')
+
+    progressbar = Scale(lower_side_frame, from_=0, to=100, orient=HORIZONTAL, value=0, length=570)
     progressbar.bind("<Button-1>", lock_progressbar)
     progressbar.bind("<ButtonRelease-1>", progress)
-    progressbar.grid(row=0, column=6, padx=10, pady=3, sticky='s')
+    progressbar.grid(row=1, column=1, padx=10, pady=5, sticky='news')
 
-    vol = Scale(lower_main_frame, from_=0, to=100, orient=HORIZONTAL, value=50, length=140, command=lambda value: volume_change(value))
-    vol.grid(row=0, column=4, padx=0, pady=3, sticky='s')
+    vol = Scale(lower_side_frame, from_=0, to=100, orient=HORIZONTAL, value=50, length=140, command=lambda value: volume_change(value))
+    vol.grid(row=1, column=0, padx=10, pady=5, sticky='news')
 
-    lower_main_frame.columnconfigure(5, weight=1)
+    repeat_flag = BooleanVar()
+    repeat_checkbox = tk.Checkbutton(lower_side_frame, image=root.repeat_off_btn_image, selectimage=root.repeat_on_btn_image, indicatoron=False, onvalue=1, offvalue=0, variable=repeat_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
+    repeat_checkbox.grid(row=1, column=2, padx=1, pady=0, sticky='news')
+    shuffle_button = tk.Button(lower_side_frame, image=root.unshuffle_btn_image, bd=0, highlightthickness=0, bg=bg_color, activebackground=bg_color, command=shuffle_music)
+    shuffle_button.grid(row=0, column=2, padx=5, pady=0, sticky='news')
+
+    lower_side_frame.columnconfigure(0, weight=1)
+    lower_side_frame.columnconfigure(1, weight=1)
+    lower_side_frame.columnconfigure(2, weight=1)
+    lower_side_frame.rowconfigure(0, weight=1)
+    lower_side_frame.rowconfigure(1, weight=1)
 
 
 def download_song_window():
@@ -289,23 +322,23 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
 
 
 def delete_song():
-    global current_song, song_list, playing, songs
+    global song_list, playing, songs
     try:
-        if playing and songs[current_folder][song_list.curselection()[0]] == current_song:
+        if (playing or paused) and songs[sellected_folder][song_list.curselection()[0]] == current_palying_song['song']:
             pygame.mixer.music.stop()
             pygame.mixer.quit()
             playing = False
-        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[current_folder][song_list.curselection()[0]]}?', type=messagebox.YESNO)
+        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[sellected_folder][song_list.curselection()[0]]}?', type=messagebox.YESNO)
         if answer == 'no':
             pygame.mixer.init()
             return
-        os.remove(f'Songs/{current_folder}/{songs[current_folder][song_list.curselection()[0]]}')
+        os.remove(f'Songs/{sellected_folder}/{songs[sellected_folder][song_list.curselection()[0]]}')
         pygame.mixer.init()
         try:
-            songs[current_folder].remove(songs[current_folder][song_list.curselection()[0]])
+            songs[sellected_folder].remove(songs[sellected_folder][song_list.curselection()[0]])
             change_folder()
         except:
-            song_list.selection_set(len(songs[current_folder]) - 1)
+            song_list.selection_set(len(songs[sellected_folder]) - 1)
             pass
     except:
         pass
@@ -313,7 +346,7 @@ def delete_song():
 
 def move_song_window():
     try:
-        song_name = songs[current_folder][song_list.curselection()[0]]
+        song_name = songs[sellected_folder][song_list.curselection()[0]]
         old_folder = os.listdir('Songs')[folder_list.curselection()[0]]
 
         if hasattr(root, 'move_song') and root.move_song:
@@ -420,31 +453,41 @@ def create_directory(path):
         folder_list.delete(0, 'end')
         for folder in os.listdir('Songs'):
             folder_list.insert('end', folder)
+        try:
+            folder_list.selection_set(os.listdir('Songs').index(sellected_folder))
+        except:
+            pass
     root.add_dir.destroy()
 
 
 def delete_folder():
-    global folder_list, current_folder, playing
-    if current_folder != '':
-        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the folder\n{current_folder}?', type=messagebox.YESNO)
+    global folder_list, sellected_folder, playing
+    if sellected_folder != '':
+        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the folder\n{sellected_folder}?', type=messagebox.YESNO)
         if answer == 'yes':
+            current_folder_tmp = folder_list.curselection()[0]
             folder_list.delete(0, 'end')
             try:
-                shutil.rmtree(f'Songs/{current_folder}')
+                shutil.rmtree(f'Songs/{sellected_folder}')
             except:
                 pygame.mixer.music.stop()
                 playing = False
                 pygame.mixer.quit()
-                shutil.rmtree(f'Songs/{current_folder}')
+                shutil.rmtree(f'Songs/{sellected_folder}')
                 pygame.mixer.init()
             for folder in os.listdir('Songs'):
                 folder_list.insert('end', folder)
             try:
-                folder_list.selection_set(0)
-                current_folder = folder_list.get(folder_list.curselection()[0])
+                folder_list.selection_set(current_folder_tmp)
+                sellected_folder = folder_list.get(folder_list.curselection()[0])
                 change_folder()
             except:
-                current_folder = ''
+                try:
+                    folder_list.selection_set(current_folder_tmp-1)
+                    sellected_folder = folder_list.get(folder_list.curselection()[0])
+                    change_folder()
+                except:
+                    sellected_folder = ''
 
 
 def cloud_sync_window():
@@ -517,44 +560,71 @@ def create_thread_drive_sync(target_script, **kwargs):
 
 
 def prev_music():
-    global song_list, current_song, song_length, current_time_static
+    global song_list, song_length, current_time_static, current_palying_song
     try:
         try:
-            song_list.selection_set(song_list.curselection()[0] - 1)
-            song_list.selection_clear(song_list.curselection()[0] + 1)
-            current_song = songs[current_folder][song_list.curselection()[0]]
+            if current_palying_song['folder'] == sellected_folder:
+                song_list.selection_set(song_list.curselection()[0] - 1)
+                song_list.selection_clear(song_list.curselection()[0] + 1)
+                if playing and not paused:
+                    current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
+                    pygame.mixer.music.load(os.path.join(f'Songs/{sellected_folder}', current_palying_song['song']))
+                    pygame.mixer.music.play(loops=0)
+                    song_length = MP3(f'Songs/{sellected_folder}/{current_palying_song['song']}').info.length
+                    current_time_static = 0
+                    play_time()
+            else:
+                if playing and not paused:
+                    current_palying_song['song'] = songs[current_palying_song['folder']][songs[current_palying_song['folder']].index(current_palying_song['song']) - 1]
+                    pygame.mixer.music.load(os.path.join(f'Songs/{current_palying_song['folder']}', current_palying_song['song']))
+                    pygame.mixer.music.play(loops=0)
+                    song_length = MP3(f'Songs/{current_palying_song['folder']}/{current_palying_song['song']}').info.length
+                    current_time_static = 0
+                    play_time()
+                else:
+                    song_list.selection_set(song_list.curselection()[0] - 1)
+                    song_list.selection_clear(song_list.curselection()[0] + 1)
         except:
-            pass
-        if playing and not paused:
-            pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
-            pygame.mixer.music.play(loops=0)
-            song_length = MP3(f'Songs/{current_folder}/{current_song}').info.length
-            current_time_static = 0
-            play_time()
+            if playing and not paused:
+                current_palying_song['song'] = songs[current_palying_song['folder']][songs[current_palying_song['folder']].index(current_palying_song['song']) - 1]
+                pygame.mixer.music.load(os.path.join(f'Songs/{current_palying_song['folder']}', current_palying_song['song']))
+                pygame.mixer.music.play(loops=0)
+                song_length = MP3(f'Songs/{current_palying_song['folder']}/{current_palying_song['song']}').info.length
+                current_time_static = 0
+                play_time()
+            else:
+                song_list.selection_set(song_list.curselection()[0] - 1)
+                song_list.selection_clear(song_list.curselection()[0] + 1)
     except:
         pass
 
 
 def play_music(event=None):
-    global current_song, paused, playing, song_length, current_time_static
+    global paused, playing, song_length, current_time_static, current_palying_song
     try:
-        if playing and not paused and current_song == songs[current_folder][song_list.curselection()[0]]:
+        try:
+            current_palying_song_tmp = songs[sellected_folder][song_list.curselection()[0]]
+        except:
+            current_palying_song_tmp = current_palying_song['song']
+        if playing and not paused and current_palying_song['song'] == current_palying_song_tmp:
             pygame.mixer.music.pause()
             playing = False
             paused = True
-        elif not playing and paused and current_song == songs[current_folder][song_list.curselection()[0]]:
+        elif not playing and paused and current_palying_song['song'] == current_palying_song_tmp:
+            print(current_palying_song_tmp)
             pygame.mixer.music.unpause()
             paused = False
             playing = True
             play_time()
         else:
             current_time_static = 0
-            current_song = songs[current_folder][song_list.curselection()[0]]
-            pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
+            current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
+            pygame.mixer.music.load(os.path.join(f'Songs/{sellected_folder}', current_palying_song['song']))
             pygame.mixer.music.play(loops=0)
+            current_palying_song['folder'] = sellected_folder
             if not muted:
                 pygame.mixer.music.set_volume(vol_tmp)
-            song_length = MP3(f'Songs/{current_folder}/{current_song}').info.length
+            song_length = MP3(f'Songs/{sellected_folder}/{current_palying_song['song']}').info.length
             playing = True
             paused = False
             play_time()
@@ -564,66 +634,104 @@ def play_music(event=None):
 
 
 def next_music():
-    global song_list, current_song, song_length, current_time_static
+    global song_list, song_length, current_time_static, current_palying_song
     try:
-        if songs[current_folder][song_list.curselection()[0]] == songs[current_folder][-1]:
-            try:
-                song_list.selection_clear(song_list.curselection()[0])
-                song_list.selection_set(0)
-                current_song = songs[current_folder][song_list.curselection()[0]]
-            except:
-                song_list.selection_set(len(songs[current_folder])-1)
-                pass
+        if current_palying_song['folder'] == sellected_folder:
+            if current_palying_song['song'] == songs[sellected_folder][-1]:
+                try:
+                    song_list.selection_clear(song_list.curselection()[0])
+                    song_list.selection_set(0)
+                    if playing and not paused:
+                        current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
+                except:
+                    pass
+            else:
+                try:
+                    song_list.selection_set(song_list.curselection()[0] + 1)
+                    song_list.selection_clear(song_list.curselection()[0])
+                    if playing and not paused:
+                        current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
+                except:
+                    pass
+            if playing and not paused:
+                pygame.mixer.music.load(os.path.join(f'Songs/{current_palying_song['folder']}', current_palying_song['song']))
+                pygame.mixer.music.play(loops=0)
+                song_length = MP3(f'Songs/{current_palying_song['folder']}/{current_palying_song['song']}').info.length
+                current_time_static = 0
+                play_time()
         else:
-            try:
-                song_list.selection_set(song_list.curselection()[0] + 1)
-                song_list.selection_clear(song_list.curselection()[0])
-                current_song = songs[current_folder][song_list.curselection()[0]]
-            except:
-                song_list.selection_set(len(songs[current_folder])-1)
-                pass
-        if playing and not paused:
-            pygame.mixer.music.load(os.path.join(f'Songs/{current_folder}', current_song))
-            pygame.mixer.music.play(loops=0)
-            song_length = MP3(f'Songs/{current_folder}/{current_song}').info.length
-            current_time_static = 0
-            play_time()
+            if current_palying_song['song'] == songs[current_palying_song['folder']][-1] and playing and not paused:
+                current_palying_song['song'] = songs[current_palying_song['folder']][0]
+            else:
+                try:
+                    if playing and not paused:
+                        current_palying_song['song'] = songs[current_palying_song['folder']][songs[current_palying_song['folder']].index(current_palying_song['song']) + 1]
+                except:
+                    pass
+            if playing and not paused:
+                pygame.mixer.music.load(os.path.join(f'Songs/{current_palying_song['folder']}', current_palying_song['song']))
+                pygame.mixer.music.play(loops=0)
+                song_length = MP3(f'Songs/{current_palying_song['folder']}/{current_palying_song['song']}').info.length
+                current_time_static = 0
+                play_time()
+    except:
+        try:
+            song_list.selection_set(song_list.curselection()[0] + 1)
+            song_list.selection_clear(song_list.curselection()[0])
+        except:
+            pass
+        pass
+
+
+def shuffle_music():
+    global vol_tmp, muted, songs, shuffle_flag_dict, shuffle_button
+    try:
+        shuffle_flag = shuffle_flag_dict[sellected_folder]
+    except:
+        shuffle_flag_dict[sellected_folder] = False
+        shuffle_flag = False
+    try:
+        if not shuffle_flag:
+            random.shuffle(songs[sellected_folder])
+            shuffle_flag_dict[sellected_folder] = True
+            shuffle_button.config(image=root.shuffle_btn_image)
+            change_folder()
+        else:
+            songs_tmp = []
+            for song in os.listdir(f'Songs/{sellected_folder}'):
+                name, ext = os.path.splitext(song)
+                if ext == '.mp3':
+                    songs_tmp.append(song)
+            songs[sellected_folder] = songs_tmp
+            shuffle_flag_dict[sellected_folder] = False
+            shuffle_button.config(image=root.unshuffle_btn_image)
+            change_folder()
     except:
         pass
 
 
+
 def mute_song():
-    global vol_tmp, muted, songs, shuffle_flag
-    if not shuffle_flag:
-        random.shuffle(songs[current_folder])
-        shuffle_flag = True
-        change_folder()
-    else:
-        songs_tmp = []
-        for song in os.listdir(f'Songs/{current_folder}'):
-            name, ext = os.path.splitext(song)
-            if ext == '.mp3':
-                songs_tmp.append(song)
-        songs[current_folder] = songs_tmp
-        shuffle_flag = False
-        change_folder()
+    global vol_tmp, muted, volume_info
     if not muted:
         vol_tmp = pygame.mixer.music.get_volume()
         pygame.mixer.music.set_volume(0)
+        volume_info.config(text='Vol: 0')
         muted = True
     else:
         pygame.mixer.music.set_volume(vol_tmp)
+        volume_info.config(text=f'Vol: {int(vol_tmp * 100)}')
         muted = False
 
 
 def change_folder(evt=None):
-    global songs, song_list, current_folder, refresh_songs_after_update
+    global songs, song_list, sellected_folder, refresh_songs_after_update, shuffle_button, shuffle_flag_dict, current_palying_song
     song_list.delete(0, 'end')
     if evt:
         w = evt.widget
         index = int(w.curselection()[0])
         value = w.get(index)
-        current_folder = value
+        sellected_folder = value
 
     if refresh_songs_after_update:
         for folder in os.listdir('Songs'):
@@ -633,11 +741,22 @@ def change_folder(evt=None):
                 if ext == '.mp3':
                     songs_tmp.append(song)
             songs[folder] = songs_tmp
+        current_palying_song = {}
+        refresh_songs_after_update = False
+        shuffle_button.config(image=root.unshuffle_btn_image)
+        shuffle_flag_dict = {}
 
-    for song in songs[current_folder]:
+    for song in songs[sellected_folder]:
         song_list.insert('end', song.replace('.mp3', ''))
     try:
-        song_list.selection_set(songs[current_folder].index(current_song))
+        if shuffle_flag_dict[sellected_folder]:
+            shuffle_button.config(image=root.shuffle_btn_image)
+        else:
+            shuffle_button.config(image=root.unshuffle_btn_image)
+    except:
+        shuffle_button.config(image=root.unshuffle_btn_image)
+    try:
+        song_list.selection_set(songs[sellected_folder].index(current_palying_song['song']))
     except:
         song_list.selection_set(0)
 
@@ -658,7 +777,7 @@ def progress(event):
             paused = False
             playing = True
             play_music()
-        progressbar.config(from_=0, to=song_length, value=float(value))
+        progressbar.config(from_=0, to=song_length-1, value=float(value))
         progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(float(value))))}/{str(time.strftime('%M:%S', time.gmtime(song_length-1)))}')
         progressbar_locked = False
     except:
@@ -666,19 +785,26 @@ def progress(event):
 
 
 def play_time():
-    global current_time, progress_info, progressbar
+    global current_time, progress_info, progressbar, song_length, current_time_static
     if playing:
         current_time = current_time_static + pygame.mixer.music.get_pos()
         progress_info.config(text=f'{str(time.strftime('%M:%S', time.gmtime(current_time/1000)))}/{str(time.strftime('%M:%S', time.gmtime(song_length-1)))}')
         if not progressbar_locked:
-            progressbar.config(from_=0, to=song_length, value=current_time / 1000)
+            progressbar.config(from_=0, to=song_length-1, value=current_time / 1000)
         if str(time.strftime('%M:%S', time.gmtime(current_time/1000))) == str(time.strftime('%M:%S', time.gmtime(song_length-1))):
-            next_music()
+            if playing and not paused and repeat_flag.get():
+                pygame.mixer.music.load(os.path.join(f'Songs/{current_palying_song['folder']}', current_palying_song['song']))
+                pygame.mixer.music.play(loops=0)
+                song_length = MP3(f'Songs/{current_palying_song['folder']}/{current_palying_song['song']}').info.length
+                current_time_static = 0
+                play_time()
+            else:
+                next_music()
         progress_info.after(1000, play_time)
 
 
 def volume_change(value):
-    global vol_tmp
+    global vol_tmp, volume_info
     if not muted:
         if not pygame.mixer.music.get_busy():
             vol_tmp = float(value) / 100
@@ -687,6 +813,7 @@ def volume_change(value):
 
     else:
         vol_tmp = float(value)/100
+    volume_info.config(text=f'Vol: {int(vol_tmp * 100)}')
 
 
 if __name__ == '__main__':
