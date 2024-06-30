@@ -23,6 +23,7 @@ muted = False
 progressbar_locked = False
 trash_thread = False
 refresh_songs_after_update = False
+panel_visible = False
 shuffle_flag_dict = {}
 repeat_flag = None
 folder_list = None
@@ -31,6 +32,7 @@ progress_info = None
 volume_info = None
 progressbar = None
 shuffle_button = None
+notebook = None
 song_list = []
 songs = {}
 song_length = 0
@@ -41,12 +43,44 @@ pygame.mixer.init()
 
 
 def toggle_panel(panel):
-    if panel.winfo_ismapped():
-        panel.grid_forget()
-        root.geometry('1080x820+10+10')
+    global panel_visible
+    if panel_visible:
+        panel.withdraw()
+        panel_visible = False
     else:
-        panel.grid(row=0, column=7, padx=11, pady=2)
-        root.geometry('1200x820+10+10')
+        # Отримуємо координати головного вікна
+        root_x = root.winfo_x()
+        root_y = root.winfo_y()
+        # Розміщуємо панель праворуч від головного вікна
+        panel.geometry(f'400x760+{root_x + 1088}+{root_y + 31}')
+        panel.deiconify()
+        panel_visible = True
+
+
+def on_move(event, panel):
+    if panel_visible:
+        root_x = root.winfo_x()
+        root_y = root.winfo_y()
+        panel.geometry(f'400x760+{root_x + 1088}+{root_y + 31}')
+
+
+def main_focus_in(event, panel):
+    global side_window_focus
+    if panel_visible:
+        panel.deiconify()
+        root.focus_force()
+        panel.lift()  # Піднімаємо вікно Toplevel поверх інших
+
+
+def on_iconify(event, panel):
+    if panel_visible:
+        # panel.overrideredirect(False)
+        # panel.iconify()
+        panel.withdraw()
+        # panel.overrideredirect(True)
+def on_deiconify(event, panel):
+    if panel_visible:
+        panel.deiconify()
 
 
 def main_GUI():
@@ -54,6 +88,22 @@ def main_GUI():
 
     root.title('Music Project')
     root.iconbitmap('Additional/icons/music-player.ico')
+
+    panel = Toplevel(root)
+    panel.overrideredirect(True)
+    panel.geometry('400x600')
+    panel.resizable(False, False)
+    panel.withdraw()
+    log_frame = Frame(panel)
+    log_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+    notebook = Notebook(log_frame, padding=7)
+    notebook.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+    root.bind('<Configure>', lambda event: on_move(event, panel))
+    root.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
+    panel.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
+    root.bind('<Unmap>', lambda event: on_iconify(event, panel))
+    root.bind('<Map>', lambda event: on_deiconify(event, panel))
 
     root.tk.call('lappend', 'auto_path', os.getcwd())
     root.tk.call('package', 'require', 'awdark')
@@ -123,6 +173,7 @@ def main_GUI():
     new_folder_image = Image.open('Additional/icons/add-folder.png').resize((60, 60))
     delete_folder_image = Image.open('Additional/icons/delete-folder.png').resize((60, 60))
     sync_image = Image.open('Additional/icons/data-synchronization.png').resize((60, 60))
+    log_image = Image.open('Additional/icons/log.png').resize((60, 60))
 
     previous_image = Image.open('Additional/icons/previous-track.png').resize((40, 40))
     play_image = Image.open('Additional/icons/pause-play.png').resize((40, 40))
@@ -140,6 +191,7 @@ def main_GUI():
     root.new_folder_btn_image = ImageTk.PhotoImage(new_folder_image)
     root.delete_folder_btn_image = ImageTk.PhotoImage(delete_folder_image)
     root.sync_btn_image = ImageTk.PhotoImage(sync_image)
+    root.log_btn_image = ImageTk.PhotoImage(log_image)
 
     root.previous_btn_image = ImageTk.PhotoImage(previous_image)
     root.play_btn_image = ImageTk.PhotoImage(play_image)
@@ -151,7 +203,7 @@ def main_GUI():
     root.repeat_on_btn_image = ImageTk.PhotoImage(repeat_on_image)
     root.repeat_off_btn_image = ImageTk.PhotoImage(repeat_off_image)
 
-    panel = Frame(middle_main_frame, relief="sunken", borderwidth=1)
+    # panel = Frame(middle_main_frame, relief="sunken", borderwidth=1)
 
     add_new_song_btn = Button(upper_main_frame, image=root.add_new_song_btn_image, command=lambda: download_song_window())
     delete_song_btn = Button(upper_main_frame, image=root.delete_song_btn_image, command=delete_song)
@@ -159,7 +211,7 @@ def main_GUI():
     new_folder_btn = Button(upper_main_frame, image=root.new_folder_btn_image, command=lambda: create_directory_window())
     delete_folder_btn = Button(upper_main_frame, image=root.delete_folder_btn_image, command=delete_folder)
     sync_btn = Button(upper_main_frame, image=root.sync_btn_image, command=cloud_sync_window)
-    test_button = Button(upper_main_frame, command=lambda: toggle_panel(panel))
+    log_btn = Button(upper_main_frame, image=root.log_btn_image, command=lambda: toggle_panel(panel))
 
     previous_btn = Button(lower_main_frame, image=root.previous_btn_image, command=prev_music)
     next_btn = Button(lower_main_frame, image=root.next_btn_image, command=next_music)
@@ -172,7 +224,7 @@ def main_GUI():
     new_folder_btn.grid(row=0, column=3, padx=10, pady=10)
     delete_folder_btn.grid(row=0, column=4, padx=10, pady=10)
     sync_btn.grid(row=0, column=5, padx=10, pady=10)
-    test_button.grid(row=0, column=6, padx=10, pady=10)
+    log_btn.grid(row=0, column=6, padx=10, pady=10)
 
     previous_btn.grid(row=0, column=0, padx=0, pady=2)
     next_btn.grid(row=0, column=2, padx=0, pady=2)
