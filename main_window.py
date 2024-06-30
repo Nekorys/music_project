@@ -40,6 +40,15 @@ vol_tmp = 0.5
 pygame.mixer.init()
 
 
+def toggle_panel(panel):
+    if panel.winfo_ismapped():
+        panel.grid_forget()
+        root.geometry('1080x820+10+10')
+    else:
+        panel.grid(row=0, column=7, padx=11, pady=2)
+        root.geometry('1200x820+10+10')
+
+
 def main_GUI():
     global song_list, progress_info, progressbar, folder_list, songs, shuffle_button, repeat_flag, volume_info
 
@@ -120,10 +129,10 @@ def main_GUI():
     next_image = Image.open('Additional/icons/next-track.png').resize((40, 40))
     volume_image = Image.open('Additional/icons/sound-button.png').resize((40, 40))
 
-    shuffle_image = Image.open('Additional/icons/shuffle.png').resize((25, 25))
-    unshuffle_image = Image.open('Additional/icons/unshuffle.png').resize((25, 25))
-    repeat_on_image = Image.open('Additional/icons/repeat_on.png').resize((30, 30))
-    repeat_off_image = Image.open('Additional/icons/repeat_off.png').resize((30, 30))
+    shuffle_image = Image.open('Additional/icons/shuffle.png').resize((26, 28))
+    unshuffle_image = Image.open('Additional/icons/unshuffle.png').resize((26, 28))
+    repeat_on_image = Image.open('Additional/icons/repeat_on.png').resize((30, 29))
+    repeat_off_image = Image.open('Additional/icons/repeat_off.png').resize((30, 29))
 
     root.add_new_song_btn_image = ImageTk.PhotoImage(add_new_song_image)
     root.delete_song_btn_image = ImageTk.PhotoImage(delete_song_image)
@@ -142,12 +151,15 @@ def main_GUI():
     root.repeat_on_btn_image = ImageTk.PhotoImage(repeat_on_image)
     root.repeat_off_btn_image = ImageTk.PhotoImage(repeat_off_image)
 
+    panel = Frame(middle_main_frame, relief="sunken", borderwidth=1)
+
     add_new_song_btn = Button(upper_main_frame, image=root.add_new_song_btn_image, command=lambda: download_song_window())
     delete_song_btn = Button(upper_main_frame, image=root.delete_song_btn_image, command=delete_song)
     move_song_btn = Button(upper_main_frame, image=root.move_song_btn_image, command=move_song_window)
     new_folder_btn = Button(upper_main_frame, image=root.new_folder_btn_image, command=lambda: create_directory_window())
     delete_folder_btn = Button(upper_main_frame, image=root.delete_folder_btn_image, command=delete_folder)
     sync_btn = Button(upper_main_frame, image=root.sync_btn_image, command=cloud_sync_window)
+    test_button = Button(upper_main_frame, command=lambda: toggle_panel(panel))
 
     previous_btn = Button(lower_main_frame, image=root.previous_btn_image, command=prev_music)
     next_btn = Button(lower_main_frame, image=root.next_btn_image, command=next_music)
@@ -160,6 +172,7 @@ def main_GUI():
     new_folder_btn.grid(row=0, column=3, padx=10, pady=10)
     delete_folder_btn.grid(row=0, column=4, padx=10, pady=10)
     sync_btn.grid(row=0, column=5, padx=10, pady=10)
+    test_button.grid(row=0, column=6, padx=10, pady=10)
 
     previous_btn.grid(row=0, column=0, padx=0, pady=2)
     next_btn.grid(row=0, column=2, padx=0, pady=2)
@@ -167,7 +180,7 @@ def main_GUI():
     volume_btn.grid(row=0, column=3, padx=11, pady=2)
 
     progress_info = Label(lower_side_frame, text='00:00/00:00', foreground='lime', font=('Miriam Libre', 12))
-    progress_info.grid(row=0, column=1, padx=10, pady=7, sticky='es')
+    progress_info.grid(row=0, column=1, padx=5, pady=7, sticky='es')
 
     volume_info = Label(lower_side_frame, text=f'Vol: {int(vol_tmp*100)}', foreground='lime', font=('Miriam Libre', 12))
     volume_info.grid(row=0, column=0, padx=10, pady=7, sticky='ws')
@@ -175,14 +188,15 @@ def main_GUI():
     progressbar = Scale(lower_side_frame, from_=0, to=100, orient=HORIZONTAL, value=0, length=570)
     progressbar.bind("<Button-1>", lock_progressbar)
     progressbar.bind("<ButtonRelease-1>", progress)
-    progressbar.grid(row=1, column=1, padx=10, pady=5, sticky='news')
+    progressbar.grid(row=1, column=1, padx=5, pady=5, sticky='news')
 
     vol = Scale(lower_side_frame, from_=0, to=100, orient=HORIZONTAL, value=50, length=140, command=lambda value: volume_change(value))
     vol.grid(row=1, column=0, padx=10, pady=5, sticky='news')
 
     repeat_flag = BooleanVar()
     repeat_checkbox = tk.Checkbutton(lower_side_frame, image=root.repeat_off_btn_image, selectimage=root.repeat_on_btn_image, indicatoron=False, onvalue=1, offvalue=0, variable=repeat_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
-    repeat_checkbox.grid(row=1, column=2, padx=1, pady=0, sticky='news')
+    repeat_checkbox.grid(row=1, column=2, padx=1, pady=0, sticky='new')
+
     shuffle_button = tk.Button(lower_side_frame, image=root.unshuffle_btn_image, bd=0, highlightthickness=0, bg=bg_color, activebackground=bg_color, command=shuffle_music)
     shuffle_button.grid(row=0, column=2, padx=5, pady=0, sticky='news')
 
@@ -235,10 +249,14 @@ def download_song_window():
 
     entry = Entry(main_frame, width=40, font=('Miriam Libre', 14), foreground='deep pink2')
     entry.grid(row=2, column=0, padx=20, pady=10, sticky='news')
+    entry.focus()
+    root.download_song.bind('<FocusIn>', on_focus_in)
 
     playlist_checkbox = BooleanVar()
     Checkbutton(side_frame, text="Playlist?", variable=playlist_checkbox).grid(row=0, column=1, padx=250, pady=10)
 
+    root.download_song.bind('<Return>', lambda event: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=[local_dir_list, folder_list_yt.curselection()],
+                                                                                           playlist=playlist_checkbox))
     download_song_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=[local_dir_list, folder_list_yt.curselection()], playlist=playlist_checkbox))
     download_song_btn.grid(row=0, column=0, padx=20, pady=30)
 
@@ -439,6 +457,7 @@ def create_directory_window():
 
     entry_directory_window = Entry(main_frame, width=40, font=('Miriam Libre', 14), foreground='deep pink2')
     entry_directory_window.grid(row=1, column=0, padx=20, pady=10, sticky='news')
+    entry_directory_window.focus()
 
     create_dir_btn = Button(main_frame, text='Create', style='My.TButton', command=lambda: create_directory(entry_directory_window.get()))
     create_dir_btn.grid(row=2, column=0, padx=20, pady=30)
@@ -814,6 +833,11 @@ def volume_change(value):
     else:
         vol_tmp = float(value)/100
     volume_info.config(text=f'Vol: {int(vol_tmp * 100)}')
+
+
+def on_focus_in(event):
+    global entry
+    entry.focus()
 
 
 if __name__ == '__main__':
