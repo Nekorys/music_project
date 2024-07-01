@@ -11,6 +11,8 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
+# parent_folder = '18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'
+parent_folder = '1hErDnVAjTTeyaheYksh8aEO5jAvy7nPw'
 
 
 def get_google_drive_folders():
@@ -32,7 +34,7 @@ def get_google_drive_folders():
         service = build('drive', 'v3', credentials=creds)
 
         results = service.files().list(
-            q=f"'18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3' in parents",
+            q=f"'{parent_folder}' in parents",
             pageSize=100,  # Збільшити кількість файлів за запит
             fields="nextPageToken, files(id, name)"
         ).execute()
@@ -42,7 +44,7 @@ def get_google_drive_folders():
 
         while nextPageToken:
             results = service.files().list(
-                q=f"'18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3' in parents",
+                q=f"'{parent_folder}' in parents",
                 pageSize=100,
                 fields="nextPageToken, files(id, name)",
                 pageToken=nextPageToken
@@ -221,7 +223,7 @@ def upload_list(wind, delete_flag, folder_list, songs_list, log_field):
         folder_list.insert('end', folder)
 
 
-def upload_file(service, file_path, folder_id='18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'):
+def upload_file(service, file_path, folder_id=parent_folder):
     file_metadata = {'name': os.path.basename(file_path)}
     if folder_id:
         file_metadata['parents'] = [folder_id]
@@ -230,7 +232,7 @@ def upload_file(service, file_path, folder_id='18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3
     service.files().create(body=file_metadata, media_body=media, fields='id').execute()
 
 
-def create_folder(service, folder_name, parent_id='18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'):
+def create_folder(service, folder_name, parent_id=parent_folder):
     file_metadata = {
         'name': folder_name,
         'mimeType': 'application/vnd.google-apps.folder'

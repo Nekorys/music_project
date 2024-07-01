@@ -658,12 +658,13 @@ def create_thread_drive_sync(target_script, **kwargs):
             thread_count = 2
         if threading.active_count() <= thread_count:
             try:
-                pygame.mixer.music.stop()
-                pygame.mixer.quit()
-                playing = False
+                if target_script.__name__ == 'download_list' and kwargs['delete_flag']:
+                    pygame.mixer.music.stop()
+                    pygame.mixer.quit()
+                    playing = False
+                    pygame.mixer.init()
                 thread = threading.Thread(target=target_script, args=kwargs.values(), daemon=True)
                 thread.start()
-                pygame.mixer.init()
             except:
                 pass
         else:
