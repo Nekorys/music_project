@@ -82,7 +82,7 @@ def on_deiconify(event, panel):
 
 
 def insert_log(text, color=None):
-    log_field.insert(tk.END, f'{text}\n', color)
+    log_field.insert(tk.END, f'{text}\n\n', color)
     log_field.see(tk.END)
 
 
@@ -192,6 +192,7 @@ def main_GUI():
     scrollbar_folder.config(command=folder_list.yview)
 
     add_new_song_image = Image.open('Additional/icons/download-music.png').resize((60, 60))
+    rename_song_image = Image.open('Additional/icons/edit.png').resize((60, 60))
     delete_song_image = Image.open('Additional/icons/delete-track.png').resize((60, 60))
     move_song_image = Image.open('Additional/icons/move-track.png').resize((60, 60))
     new_folder_image = Image.open('Additional/icons/add-folder.png').resize((60, 60))
@@ -210,6 +211,7 @@ def main_GUI():
     repeat_off_image = Image.open('Additional/icons/repeat_off.png').resize((30, 29))
 
     root.add_new_song_btn_image = ImageTk.PhotoImage(add_new_song_image)
+    root.rename_song_btn_image = ImageTk.PhotoImage(rename_song_image)
     root.delete_song_btn_image = ImageTk.PhotoImage(delete_song_image)
     root.move_song_btn_image = ImageTk.PhotoImage(move_song_image)
     root.new_folder_btn_image = ImageTk.PhotoImage(new_folder_image)
@@ -228,6 +230,7 @@ def main_GUI():
     root.repeat_off_btn_image = ImageTk.PhotoImage(repeat_off_image)
 
     add_new_song_btn = Button(upper_main_frame, image=root.add_new_song_btn_image, command=lambda: download_song_window())
+    rename_song_btn = Button(upper_main_frame, image=root.rename_song_btn_image, command=lambda: create_rename_song_window(sellected_folder))
     delete_song_btn = Button(upper_main_frame, image=root.delete_song_btn_image, command=delete_song)
     move_song_btn = Button(upper_main_frame, image=root.move_song_btn_image, command=move_song_window)
     new_folder_btn = Button(upper_main_frame, image=root.new_folder_btn_image, command=lambda: create_directory_window())
@@ -236,6 +239,7 @@ def main_GUI():
     log_btn = Button(upper_main_frame, image=root.log_btn_image, command=lambda: toggle_panel(panel))
 
     ToolTip(add_new_song_btn, msg="Download song", follow=True, delay=0.5)
+    ToolTip(rename_song_btn, msg="Rename song", follow=True, delay=0.5)
     ToolTip(delete_song_btn, msg="Delete song", follow=True, delay=0.5)
     ToolTip(move_song_btn, msg="Move song", follow=True, delay=0.5)
     ToolTip(new_folder_btn, msg="New folder", follow=True, delay=0.5)
@@ -249,12 +253,13 @@ def main_GUI():
     volume_btn = Button(lower_main_frame, image=root.volume_btn_image, command=mute_song)
 
     add_new_song_btn.grid(row=0, column=0, padx=10, pady=10)
-    delete_song_btn.grid(row=0, column=1, padx=10, pady=10)
-    move_song_btn.grid(row=0, column=2, padx=10, pady=10)
-    new_folder_btn.grid(row=0, column=3, padx=10, pady=10)
-    delete_folder_btn.grid(row=0, column=4, padx=10, pady=10)
-    sync_btn.grid(row=0, column=5, padx=10, pady=10)
-    log_btn.grid(row=0, column=6, padx=10, pady=10)
+    rename_song_btn.grid(row=0, column=1, padx=10, pady=10)
+    delete_song_btn.grid(row=0, column=2, padx=10, pady=10)
+    move_song_btn.grid(row=0, column=3, padx=10, pady=10)
+    new_folder_btn.grid(row=0, column=4, padx=10, pady=10)
+    delete_folder_btn.grid(row=0, column=5, padx=10, pady=10)
+    sync_btn.grid(row=0, column=6, padx=10, pady=10)
+    log_btn.grid(row=0, column=7, padx=10, pady=10)
 
     previous_btn.grid(row=0, column=0, padx=0, pady=2)
     next_btn.grid(row=0, column=2, padx=0, pady=2)
@@ -335,7 +340,7 @@ def download_song_window():
     entry = Entry(main_frame, width=40, font=('Miriam Libre', 14), foreground='deep pink2')
     entry.grid(row=2, column=0, padx=20, pady=10, sticky='news')
     entry.focus()
-    root.download_song.bind('<FocusIn>', on_focus_in)
+    root.download_song.bind('<FocusIn>', lambda event: on_focus_in(event, entry))
 
     playlist_checkbox = BooleanVar()
     Checkbutton(side_frame, text='', variable=playlist_checkbox).grid(row=0, column=1, padx=95, pady=0, sticky='e')
@@ -434,17 +439,78 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
     trash_thread = True
 
 
+def create_rename_song_window(current_folder):
+    try:
+        song_to_rename = songs[sellected_folder][song_list.curselection()[0]].replace('.mp3', '')
+    except:
+        insert_log('No selected song for rename', 'yellow_text')
+        return
+    if hasattr(root, 'rename_song') and root.rename_song:
+        root.rename_song.destroy()
+
+    root.rename_song = tk.Toplevel(root)
+    root.rename_song.withdraw()
+    root.rename_song.title("Rename Song")
+    root.rename_song.iconbitmap('Additional/icons/music-player.ico')
+    root.rename_song.geometry('500x150+200+300')
+    root.rename_song.resizable(False, False)
+
+    root.rename_song.tk.call('lappend', 'auto_path', os.getcwd())
+    root.rename_song.tk.call('package', 'require', 'awdark')
+
+    root.rename_song.deiconify()
+
+    main_frame = Frame(root.rename_song)
+    main_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+    main_frame.columnconfigure(0, weight=1)
+
+    entry = Entry(main_frame, width=40, font=('Miriam Libre', 14), foreground='deep pink2')
+    entry.grid(row=0, column=0, padx=20, pady=30, sticky='news')
+    entry.insert(0, song_to_rename)
+    entry.focus()
+    root.rename_song.bind('<FocusIn>', lambda event: on_focus_in(event, entry))
+
+    download_song_btn = Button(main_frame, text='Rename', style='My.TButton', command=lambda: rename_song(current_folder, song_to_rename + '.mp3', entry.get()))
+    download_song_btn.grid(row=1, column=0, padx=20, pady=0, sticky='')
+
+
+def rename_song(current_folder, old_name, new_name):
+    global playing, songs
+
+    if new_name + '.mp3' in songs[current_folder]:
+        insert_log(f"{new_name + '.mp3'} already exists", 'yellow_text')
+        root.rename_song.destroy()
+        return
+
+    if (playing or paused) and old_name == current_palying_song['song']:
+        pygame.mixer.music.stop()
+        pygame.mixer.quit()
+        playing = False
+        pygame.mixer.init()
+
+    os.rename(f'Songs/{current_folder}/{old_name}', f"Songs/{current_folder}/{new_name + '.mp3'}")
+    songs[current_folder][songs[current_folder].index(old_name)] = new_name + '.mp3'
+    change_folder()
+    insert_log(f"{old_name} has been renamed to {new_name + '.mp3'}", 'green_text')
+    root.rename_song.destroy()
+    if song_list.curselection()[0] == 0:
+        song_list.selection_clear(0)
+        song_list.selection_set(songs[current_folder].index(new_name + '.mp3'))
+        song_list.see(songs[current_folder].index(new_name + '.mp3'))
+
+
 def delete_song():
     global song_list, playing, songs
     try:
+        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[sellected_folder][song_list.curselection()[0]]}?', type=messagebox.YESNO)
+        if answer == 'no':
+            return
         if (playing or paused) and songs[sellected_folder][song_list.curselection()[0]] == current_palying_song['song']:
             pygame.mixer.music.stop()
             pygame.mixer.quit()
             playing = False
-        answer = messagebox.askquestion(title='Delete?!', message=f'Are you sure you want to delete the track\n{songs[sellected_folder][song_list.curselection()[0]]}?', type=messagebox.YESNO)
-        if answer == 'no':
             pygame.mixer.init()
-            return
         os.remove(f'Songs/{sellected_folder}/{songs[sellected_folder][song_list.curselection()[0]]}')
         insert_log(f"{songs[sellected_folder][song_list.curselection()[0]]} has been deleted", 'green_text')
         pygame.mixer.init()
@@ -453,6 +519,7 @@ def delete_song():
             change_folder()
         except:
             song_list.selection_set(len(songs[sellected_folder]) - 1)
+            song_list.see(len(songs[sellected_folder]) - 1)
             pass
     except:
         pass
@@ -698,6 +765,7 @@ def prev_music():
         try:
             if current_palying_song['folder'] == sellected_folder:
                 song_list.selection_set(song_list.curselection()[0] - 1)
+                song_list.see(song_list.curselection()[0] - 1)
                 song_list.selection_clear(song_list.curselection()[0] + 1)
                 if playing and not paused:
                     current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
@@ -716,6 +784,7 @@ def prev_music():
                     play_time()
                 else:
                     song_list.selection_set(song_list.curselection()[0] - 1)
+                    song_list.see(song_list.curselection()[0] - 1)
                     song_list.selection_clear(song_list.curselection()[0] + 1)
         except:
             if playing and not paused:
@@ -727,6 +796,7 @@ def prev_music():
                 play_time()
             else:
                 song_list.selection_set(song_list.curselection()[0] - 1)
+                song_list.see(song_list.curselection()[0] - 1)
                 song_list.selection_clear(song_list.curselection()[0] + 1)
     except:
         pass
@@ -772,6 +842,7 @@ def next_music():
                 try:
                     song_list.selection_clear(song_list.curselection()[0])
                     song_list.selection_set(0)
+                    song_list.see(0)
                     if playing and not paused:
                         current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
                 except:
@@ -779,6 +850,7 @@ def next_music():
             else:
                 try:
                     song_list.selection_set(song_list.curselection()[0] + 1)
+                    song_list.see(song_list.curselection()[0] + 1)
                     song_list.selection_clear(song_list.curselection()[0])
                     if playing and not paused:
                         current_palying_song['song'] = songs[sellected_folder][song_list.curselection()[0]]
@@ -807,8 +879,14 @@ def next_music():
                 play_time()
     except:
         try:
-            song_list.selection_set(song_list.curselection()[0] + 1)
-            song_list.selection_clear(song_list.curselection()[0])
+            if songs[sellected_folder][song_list.curselection()[0]] == songs[sellected_folder][-1]:
+                song_list.selection_clear(song_list.curselection()[0])
+                song_list.selection_set(0)
+                song_list.see(0)
+            else:
+                song_list.selection_set(song_list.curselection()[0] + 1)
+                song_list.see(song_list.curselection()[0] + 1)
+                song_list.selection_clear(song_list.curselection()[0])
         except:
             pass
         pass
@@ -888,8 +966,10 @@ def change_folder(evt=None):
         shuffle_button.config(image=root.unshuffle_btn_image)
     try:
         song_list.selection_set(songs[sellected_folder].index(current_palying_song['song']))
+        song_list.see(songs[sellected_folder].index(current_palying_song['song']))
     except:
         song_list.selection_set(0)
+        song_list.see(0)
 
 
 def lock_progressbar(event):
@@ -947,9 +1027,11 @@ def volume_change(value):
     volume_info.config(text=f'Vol: {int(vol_tmp * 100)}')
 
 
-def on_focus_in(event):
+def on_focus_in(event, current_entry=None):
     global entry
-    entry.focus()
+    if not current_entry:
+        current_entry = entry
+    current_entry.focus()
 
 
 if __name__ == '__main__':
