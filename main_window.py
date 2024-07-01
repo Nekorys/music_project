@@ -14,6 +14,7 @@ from pytube import YouTube
 from pytube import Playlist
 import shutil
 import drive_sync
+from tktooltip import ToolTip
 
 sellected_folder = ''
 current_palying_song = {}
@@ -234,6 +235,14 @@ def main_GUI():
     sync_btn = Button(upper_main_frame, image=root.sync_btn_image, command=cloud_sync_window)
     log_btn = Button(upper_main_frame, image=root.log_btn_image, command=lambda: toggle_panel(panel))
 
+    ToolTip(add_new_song_btn, msg="Download song", follow=True, delay=0.5)
+    ToolTip(delete_song_btn, msg="Delete song", follow=True, delay=0.5)
+    ToolTip(move_song_btn, msg="Move song", follow=True, delay=0.5)
+    ToolTip(new_folder_btn, msg="New folder", follow=True, delay=0.5)
+    ToolTip(delete_folder_btn, msg="Delete folder", follow=True, delay=0.5)
+    ToolTip(sync_btn, msg="Synchronize with cloud", follow=True, delay=0.5)
+    ToolTip(log_btn, msg="Logs", follow=True, delay=0.5)
+
     previous_btn = Button(lower_main_frame, image=root.previous_btn_image, command=prev_music)
     next_btn = Button(lower_main_frame, image=root.next_btn_image, command=next_music)
     play_btn = Button(lower_main_frame, image=root.play_btn_image, command=play_music)
@@ -329,12 +338,18 @@ def download_song_window():
     root.download_song.bind('<FocusIn>', on_focus_in)
 
     playlist_checkbox = BooleanVar()
-    Checkbutton(side_frame, text="Playlist?", variable=playlist_checkbox).grid(row=0, column=1, padx=250, pady=10)
+    Checkbutton(side_frame, text='', variable=playlist_checkbox).grid(row=0, column=1, padx=95, pady=0, sticky='e')
+
+    label = Label(side_frame, text='Playlist', font=('Miriam Libre', 11), foreground='lime')
+    label.grid(row=0, column=1, padx=40, pady=10, sticky='e')
 
     root.download_song.bind('<Return>', lambda event: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=[local_dir_list, folder_list_yt.curselection()],
                                                                                            playlist=playlist_checkbox))
     download_song_btn = Button(side_frame, text='Download', style='My.TButton', command=lambda: create_thread_youtube_audio_download(youtube_audio_download, video_url=entry.get(), download_dir=[local_dir_list, folder_list_yt.curselection()], playlist=playlist_checkbox))
-    download_song_btn.grid(row=0, column=0, padx=20, pady=30)
+    download_song_btn.grid(row=0, column=0, padx=20, pady=30, sticky='we')
+
+    side_frame.columnconfigure(0, weight=1)
+    side_frame.columnconfigure(1, weight=1)
 
 
 def create_thread_youtube_audio_download(target_script, **kwargs):
@@ -641,6 +656,9 @@ def cloud_sync_window():
     cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list, log_field=log_field))
     cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list, log_field=log_field))
     delete_checkbox = tk.Checkbutton(main_frame, image=root.off_btn_image, selectimage=root.on_bnt_image, indicatoron=False, onvalue=1, offvalue=0, variable=delete_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
+
+    ToolTip(cloud_upload_bnt, msg="Upload", follow=True, delay=0.5)
+    ToolTip(cloud_download_btn, msg="Download", follow=True, delay=0.5)
 
     cloud_upload_bnt.grid(row=0, column=0, padx=10, pady=10)
     cloud_download_btn.grid(row=0, column=1, padx=10, pady=10)
