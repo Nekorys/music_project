@@ -32,7 +32,7 @@ progress_info = None
 volume_info = None
 progressbar = None
 shuffle_button = None
-notebook = None
+log_field = None
 song_list = []
 songs = {}
 song_length = 0
@@ -48,10 +48,8 @@ def toggle_panel(panel):
         panel.withdraw()
         panel_visible = False
     else:
-        # Отримуємо координати головного вікна
         root_x = root.winfo_x()
         root_y = root.winfo_y()
-        # Розміщуємо панель праворуч від головного вікна
         panel.geometry(f'400x760+{root_x + 1088}+{root_y + 31}')
         panel.deiconify()
         panel_visible = True
@@ -69,41 +67,40 @@ def main_focus_in(event, panel):
     if panel_visible:
         panel.deiconify()
         root.focus_force()
-        panel.lift()  # Піднімаємо вікно Toplevel поверх інших
+        panel.lift()
 
 
 def on_iconify(event, panel):
     if panel_visible:
-        # panel.overrideredirect(False)
-        # panel.iconify()
         panel.withdraw()
-        # panel.overrideredirect(True)
+
+
 def on_deiconify(event, panel):
     if panel_visible:
         panel.deiconify()
 
 
+def insert_log(text, color=None):
+    log_field.insert(tk.END, f'{text}\n', color)
+    log_field.see(tk.END)
+
+
+def on_copy(event):
+    try:
+        selected_text = log_field.get(tk.SEL_FIRST, tk.SEL_LAST)
+        if selected_text:
+            root.clipboard_clear()
+            root.clipboard_append(selected_text)
+    except:
+        pass
+
+
+
 def main_GUI():
-    global song_list, progress_info, progressbar, folder_list, songs, shuffle_button, repeat_flag, volume_info
+    global song_list, progress_info, progressbar, folder_list, songs, shuffle_button, repeat_flag, volume_info, log_field
 
     root.title('Music Project')
     root.iconbitmap('Additional/icons/music-player.ico')
-
-    panel = Toplevel(root)
-    panel.overrideredirect(True)
-    panel.geometry('400x600')
-    panel.resizable(False, False)
-    panel.withdraw()
-    log_frame = Frame(panel)
-    log_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
-    notebook = Notebook(log_frame, padding=7)
-    notebook.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-    root.bind('<Configure>', lambda event: on_move(event, panel))
-    root.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
-    panel.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
-    root.bind('<Unmap>', lambda event: on_iconify(event, panel))
-    root.bind('<Map>', lambda event: on_deiconify(event, panel))
 
     root.tk.call('lappend', 'auto_path', os.getcwd())
     root.tk.call('package', 'require', 'awdark')
@@ -113,6 +110,32 @@ def main_GUI():
     style.configure('My.TButton', font=('Miriam Libre', 14, 'bold'), borderwidth='0')
     style.map('My.TButton', foreground=[('active', '!disabled', 'blue'), ('!disabled', 'lime')], background=[('active', 'black')])
     bg_color = style.lookup('TFrame', 'background')
+
+    panel = Toplevel(root)
+    panel.withdraw()
+    panel.overrideredirect(True)
+    panel.geometry('400x600')
+    panel.resizable(False, False)
+    log_frame = Frame(panel)
+    log_frame.place(relx=0.001, rely=-0.001, relwidth=1, relheight=1.002)
+    log_field = Text(log_frame)
+    log_field.place(relx=0.01, rely=0.01, relwidth=0.957, relheight=0.98)
+    scrollbar_log_field = Scrollbar(log_frame, orient=tk.VERTICAL, command=log_field.yview)
+    log_field.config(yscrollcommand=scrollbar_log_field.set)
+    scrollbar_log_field.place(relx=0.95, rely=0.002, relheight=0.995, relwidth=0.05)
+    log_field.config(font=("Courier", 13))
+    log_field.config(state="normal", wrap=tk.WORD)
+    log_field.tag_configure("yellow_text", foreground="yellow")
+    log_field.tag_configure("red_text", foreground="red")
+    log_field.tag_configure("green_text", foreground="green")
+
+    root.bind("<Control-c>", on_copy)
+
+    root.bind('<Configure>', lambda event: on_move(event, panel))
+    root.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
+    panel.bind("<FocusIn>", lambda event: main_focus_in(event, panel))
+    root.bind('<Unmap>', lambda event: on_iconify(event, panel))
+    root.bind('<Map>', lambda event: on_deiconify(event, panel))
 
     upper_main_frame = LabelFrame(root)
     upper_main_frame.place(relx=0, rely=0, relwidth=1, relheight=.15)
@@ -203,8 +226,6 @@ def main_GUI():
     root.repeat_on_btn_image = ImageTk.PhotoImage(repeat_on_image)
     root.repeat_off_btn_image = ImageTk.PhotoImage(repeat_off_image)
 
-    # panel = Frame(middle_main_frame, relief="sunken", borderwidth=1)
-
     add_new_song_btn = Button(upper_main_frame, image=root.add_new_song_btn_image, command=lambda: download_song_window())
     delete_song_btn = Button(upper_main_frame, image=root.delete_song_btn_image, command=delete_song)
     move_song_btn = Button(upper_main_frame, image=root.move_song_btn_image, command=move_song_window)
@@ -266,6 +287,7 @@ def download_song_window():
         root.download_song.destroy()
 
     root.download_song = tk.Toplevel(root)
+    root.download_song.withdraw()
     root.download_song.title("Download Song")
     root.download_song.iconbitmap('Additional/icons/music-player.ico')
     root.download_song.geometry('500x480+200+300')
@@ -273,6 +295,8 @@ def download_song_window():
 
     root.download_song.tk.call('lappend', 'auto_path', os.getcwd())
     root.download_song.tk.call('package', 'require', 'awdark')
+
+    root.download_song.deiconify()
 
     main_frame = Frame(root.download_song)
     main_frame.place(relx=0, rely=0, relwidth=1, relheight=0.8)
@@ -324,10 +348,10 @@ def create_thread_youtube_audio_download(target_script, **kwargs):
             thread.start()
         else:
             entry.delete(0, tk.END)
-            entry.insert(0, 'Threading Error')
+            insert_log(f'Threading Error for\n{kwargs['video_url']}\nTry later', 'yellow_text')
             pass
     except Exception as e:
-        print(e)
+        insert_log(f'{e} in create_thread_youtube_audio_download function', 'red_text')
         pass
 
 
@@ -350,44 +374,48 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
             try:
                 audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
                 info = video.vid_info
-                full_title = info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']
+                full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
                 downloaded_file = audio.download(f'Songs/{download_dir}')
-                mp3_file = f'Songs/{download_dir}/{full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')}' + '.mp3'
+                mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
                 audio_clip = AudioFileClip(downloaded_file)
                 audio_clip.write_audiofile(mp3_file)
                 audio_clip.close()
                 os.remove(downloaded_file)
+                insert_log(f'{full_title} downloaded successfully', 'green_text')
                 try:
-                    songs[download_dir].append(full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '') + '.mp3')
+                    songs[download_dir].append(full_title + '.mp3')
                     songs[download_dir] = list(set(songs[download_dir]))
                     if folder_tmp == folder_list.curselection()[0]:
                         change_folder()
                 except:
                     pass
             except Exception as e:
-                print(f"Failed to download audio - {e}")
+                insert_log(f"Failed to download {full_title} - {e}", 'red_text')
     else:
         try:
             video = YouTube(video_url, use_oauth=True)
             audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
             info = video.vid_info
-            full_title = info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']
+            full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
             downloaded_file = audio.download(f'Songs/{download_dir}')
-            mp3_file = f'Songs/{download_dir}/{full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')}' + '.mp3'
+            mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
             audio_clip = AudioFileClip(downloaded_file)
             audio_clip.write_audiofile(mp3_file)
             audio_clip.close()
             os.remove(downloaded_file)
+            insert_log(f'{full_title} downloaded successfully', 'green_text')
             try:
-                songs[download_dir].append(full_title.replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '') + '.mp3')
+                songs[download_dir].append(full_title + '.mp3')
                 songs[download_dir] = list(set(songs[download_dir]))
                 if folder_tmp == folder_list.curselection()[0]:
                     change_folder()
             except:
                 pass
         except Exception as e:
-            print(e)
-            print(f"Failed to download audio - {e}")
+            try:
+                insert_log(f"Failed to download {full_title} - {e}", 'red_text')
+            except:
+                insert_log(f"Failed to download - {e}", 'red_text')
     trash_thread = True
 
 
@@ -403,6 +431,7 @@ def delete_song():
             pygame.mixer.init()
             return
         os.remove(f'Songs/{sellected_folder}/{songs[sellected_folder][song_list.curselection()[0]]}')
+        insert_log(f"{songs[sellected_folder][song_list.curselection()[0]]} has been deleted", 'green_text')
         pygame.mixer.init()
         try:
             songs[sellected_folder].remove(songs[sellected_folder][song_list.curselection()[0]])
@@ -423,6 +452,7 @@ def move_song_window():
             root.move_song.destroy()
 
         root.move_song = tk.Toplevel(root)
+        root.move_song.withdraw()
         root.move_song.title("Move Song")
         root.move_song.iconbitmap('Additional/icons/music-player.ico')
         root.move_song.geometry('400x300+200+300')
@@ -430,6 +460,8 @@ def move_song_window():
 
         root.move_song.tk.call('lappend', 'auto_path', os.getcwd())
         root.move_song.tk.call('package', 'require', 'awdark')
+
+        root.move_song.deiconify()
 
         main_frame = Frame(root.move_song)
         main_frame.place(relx=0, rely=0, relwidth=1, relheight=.8)
@@ -463,6 +495,7 @@ def move_song(new_folder, old_folder, song_name):
     global playing, songs
     try:
         shutil.move(f'Songs/{old_folder}/{song_name}', f'Songs/{new_folder}/{song_name}')
+        insert_log(f"{song_name} has been moved form {old_folder} to {new_folder}", 'green_text')
         songs[old_folder].remove(song_name)
         songs[new_folder].append(song_name)
         songs[new_folder] = list(set(songs[new_folder]))
@@ -478,6 +511,7 @@ def move_song(new_folder, old_folder, song_name):
             playing = False
             pygame.mixer.init()
             shutil.move(f'Songs/{old_folder}/{song_name}', f'Songs/{new_folder}/{song_name}')
+            insert_log(f"{song_name} has been moved form {old_folder} to {new_folder}", 'green_text')
             songs[old_folder].remove(song_name)
             songs[new_folder].append(song_name)
             songs[new_folder] = list(set(songs[new_folder]))
@@ -493,6 +527,7 @@ def create_directory_window():
         root.add_dir.destroy()
 
     root.add_dir = tk.Toplevel(root)
+    root.add_dir.withdraw()
     root.add_dir.title("Create Directory")
     root.add_dir.iconbitmap('Additional/icons/music-player.ico')
     root.add_dir.geometry('500x250+200+300')
@@ -500,6 +535,8 @@ def create_directory_window():
 
     root.add_dir.tk.call('lappend', 'auto_path', os.getcwd())
     root.add_dir.tk.call('package', 'require', 'awdark')
+
+    root.add_dir.deiconify()
 
     main_frame = Frame(root.add_dir)
     main_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
@@ -520,6 +557,7 @@ def create_directory(path):
     directory = f'Songs/{path}'
     if not os.path.exists(directory):
         os.makedirs(directory)
+        insert_log(f"{directory} has been created", 'green_text')
         songs[path] = []
         folder_list.delete(0, 'end')
         for folder in os.listdir('Songs'):
@@ -540,11 +578,13 @@ def delete_folder():
             folder_list.delete(0, 'end')
             try:
                 shutil.rmtree(f'Songs/{sellected_folder}')
+                insert_log(f"{sellected_folder} has been removed", 'green_text')
             except:
                 pygame.mixer.music.stop()
                 playing = False
                 pygame.mixer.quit()
                 shutil.rmtree(f'Songs/{sellected_folder}')
+                insert_log(f"{sellected_folder} has been removed", 'green_text')
                 pygame.mixer.init()
             for folder in os.listdir('Songs'):
                 folder_list.insert('end', folder)
@@ -568,6 +608,7 @@ def cloud_sync_window():
         root.cloud_sync.destroy()
 
     root.cloud_sync = tk.Toplevel(root)
+    root.cloud_sync.withdraw()
     root.cloud_sync.title("Download Song")
     root.cloud_sync.iconbitmap('Additional/icons/music-player.ico')
     root.cloud_sync.geometry('450x220+200+300')
@@ -578,6 +619,8 @@ def cloud_sync_window():
     style = Style()
     style.theme_use('awdark')
     bg_color = style.lookup('TFrame', 'background')
+
+    root.cloud_sync.deiconify()
 
     main_frame = Frame(root.cloud_sync)
     main_frame.place(relx=0, rely=0, relwidth=1, relheight=1)
@@ -595,8 +638,8 @@ def cloud_sync_window():
     root.on_bnt_image = ImageTk.PhotoImage(on_image)
     root.off_btn_image = ImageTk.PhotoImage(off_image)
 
-    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list))
-    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list))
+    cloud_upload_bnt = Button(main_frame, image=root.cloud_upload_bnt_image, command=lambda: create_thread_drive_sync(drive_sync.upload_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list, log_field=log_field))
+    cloud_download_btn = Button(main_frame, image=root.cloud_download_btn_image, command=lambda: create_thread_drive_sync(drive_sync.download_list, wind=root.cloud_sync, delete_flag=delete_flag.get(), folder_list=folder_list, song_list=song_list, log_field=log_field))
     delete_checkbox = tk.Checkbutton(main_frame, image=root.off_btn_image, selectimage=root.on_bnt_image, indicatoron=False, onvalue=1, offvalue=0, variable=delete_flag, relief='flat', bd=0, bg=bg_color, activebackground=bg_color, selectcolor=bg_color)
 
     cloud_upload_bnt.grid(row=0, column=0, padx=10, pady=10)
@@ -627,7 +670,7 @@ def create_thread_drive_sync(target_script, **kwargs):
             pass
         refresh_songs_after_update = True
     except Exception as e:
-        print(e)
+        insert_log(f'{e} in create_thread_drive_sync function', 'red_text')
 
 
 def prev_music():
@@ -682,7 +725,6 @@ def play_music(event=None):
             playing = False
             paused = True
         elif not playing and paused and current_palying_song['song'] == current_palying_song_tmp:
-            print(current_palying_song_tmp)
             pygame.mixer.music.unpause()
             paused = False
             playing = True
@@ -700,7 +742,6 @@ def play_music(event=None):
             paused = False
             play_time()
     except Exception as e:
-        print(e)
         pass
 
 
