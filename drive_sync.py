@@ -11,8 +11,8 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
-# parent_folder = '18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'
-parent_folder = '1hErDnVAjTTeyaheYksh8aEO5jAvy7nPw'
+parent_folder = '18rEhC3BYiG1HiasOAZnzP0GaYN9-1cW3'
+# parent_folder = '1hErDnVAjTTeyaheYksh8aEO5jAvy7nPw'
 
 
 def get_google_drive_folders():
@@ -158,7 +158,7 @@ def download_list(wind, delete_flag, folder_list, songs_list, log_field):
                 os.makedirs(f'Songs/{r_list['folder']}')
             download_files(service, r_list['folder_id'], r_list['folder'])
 
-    log_field.insert('end', f'Download from drive has been completed\n', 'green_text')
+    log_field.insert('end', f'Download from drive has been completed\n\n', 'green_text')
     log_field.see(END)
     if delete_flag:
         for folder_to_remove in folders_to_remove:
@@ -166,7 +166,7 @@ def download_list(wind, delete_flag, folder_list, songs_list, log_field):
         for song_to_remove in [d for d in songs_to_remove if d[list(d.keys())[0]]]:
             for s_to_remove in song_to_remove[list(song_to_remove)[0]]:
                 os.remove(f'Songs/{list(song_to_remove)[0]}/{s_to_remove}')
-        log_field.insert('end', f'Not matched files have been deleted\n', 'green_text')
+        log_field.insert('end', f'Not matched files have been deleted\n\n', 'green_text')
         log_field.see(END)
     wind.destroy()
     folder_list.delete(0, 'end')
@@ -207,14 +207,14 @@ def upload_list(wind, delete_flag, folder_list, songs_list, log_field):
                 for song in l_list['songs']:
                     upload_file(service, f'Songs/{l_list['folder']}/{song}', folder_id=new_folder_id)
             list_for_upload_dirs.append(l_list['folder'])
-    log_field.insert('end', f'Upload to drive has been completed\n', 'green_text')
+    log_field.insert('end', f'Upload to drive has been completed\n\n', 'green_text')
     log_field.see(END)
     if delete_flag:
         for file_to_delete in [a['folder_id'] for a in remote_list if a['folder'] in folders_to_remove]:
             delete_from_drive(service, file_to_delete)
         for file_to_delete in songs_to_remove:
             delete_from_drive(service, file_to_delete['id'])
-        log_field.insert('end', f'Not matched files have been deleted\n', 'green_text')
+        log_field.insert('end', f'Not matched files have been deleted\n\n', 'green_text')
         log_field.see(END)
     wind.destroy()
     folder_list.delete(0, 'end')
