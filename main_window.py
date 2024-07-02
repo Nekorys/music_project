@@ -11,10 +11,12 @@ import pygame
 from mutagen.mp3 import MP3
 from moviepy.editor import AudioFileClip
 from pytube import YouTube
-from pytube import Playlist
 import shutil
 import drive_sync
 from tktooltip import ToolTip
+import googleapiclient.discovery
+
+API_KEY = "AIzaSyBMoogr2IvaHG2-Ri5TfBIdS8x-xMS1osY"
 
 selected_folder = ''
 current_playing_song = {}
@@ -43,6 +45,51 @@ current_time = 0
 current_time_static = 0
 vol_tmp = 0.5
 pygame.mixer.init()
+
+
+def get_video_info(video_url):
+    # Отримуємо ID відео з URL
+    video_id = video_url.split("v=")[1]
+
+    # Створюємо об'єкт YouTube API
+    youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
+
+    # Отримуємо інформацію про відео
+    request = youtube.videos().list(
+        part="snippet,contentDetails,statistics",
+        id=video_id
+    )
+    response = request.execute()
+
+    return response
+
+
+def get_playlist_video_urls(playlist_id):
+    # Створюємо об'єкт YouTube API
+    youtube = googleapiclient.discovery.build("youtube", "v3", developerKey=API_KEY)
+
+    video_urls = []
+    next_page_token = None
+
+    while True:
+        # Отримуємо відео з плейлиста
+        request = youtube.playlistItems().list(
+            part="snippet",
+            playlistId=playlist_id,
+            maxResults=50,
+            pageToken=next_page_token
+        )
+        response = request.execute()
+
+        for item in response['items']:
+            video_id = item['snippet']['resourceId']['videoId']
+            video_urls.append(f"https://www.youtube.com/watch?v={video_id}")
+
+        next_page_token = response.get('nextPageToken')
+        if not next_page_token:
+            break
+
+    return video_urls
 
 
 def toggle_panel(panel):
@@ -441,9 +488,12 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
         pass
 
     if playlist.get() == 1:
-        videos = Playlist(video_url)
-        for video in videos.videos:
+        playlist_id = video_url.split("list=")[1]
+        video_urls = get_playlist_video_urls(playlist_id)
+        for video_url_p in video_urls:
             try:
+                video_info = get_video_info(video_url_p)
+                video = YouTube(video_url_p)
                 audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
                 info = video.vid_info
                 full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
@@ -462,10 +512,11 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
                 except:
                     pass
             except Exception as e:
-                insert_log(f"Failed to download {full_title} - {e}", 'red_text')
+                insert_log(f"Failed to download - {e}", 'red_text')
     else:
         try:
-            video = YouTube(video_url, use_oauth=True)
+            video_info = get_video_info(video_url)
+            video = YouTube(video_url)
             audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
             info = video.vid_info
             full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
