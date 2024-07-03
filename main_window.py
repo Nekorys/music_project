@@ -166,6 +166,12 @@ def filter_songs(var):
                 pass
             for song in songs[selected_folder]:
                 song_list.insert('end', song.replace('.mp3', ''))
+            try:
+                song_list.selection_set(songs[selected_folder].index(current_playing_song['song']))
+                song_list.see(songs[selected_folder].index(current_playing_song['song']))
+            except:
+                song_list.selection_set(0)
+                song_list.see(0)
             return
         song_list.delete(0, 'end')
         songs_tmp = []
@@ -181,6 +187,12 @@ def filter_songs(var):
             pass
         for song in songs[selected_folder]:
             song_list.insert('end', song.replace('.mp3', ''))
+        try:
+            song_list.selection_set(songs[selected_folder].index(current_playing_song['song']))
+            song_list.see(songs[selected_folder].index(current_playing_song['song']))
+        except:
+            song_list.selection_set(0)
+            song_list.see(0)
     except Exception as e:
         print(e)
         pass
