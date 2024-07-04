@@ -508,7 +508,7 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
                 video = YouTube(video_url_p)
                 audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
                 info = video.vid_info
-                full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
+                full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '').replace('!', '1')
                 downloaded_file = audio.download(f'Songs/{download_dir}')
                 mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
                 audio_clip = AudioFileClip(downloaded_file)
@@ -531,7 +531,7 @@ def youtube_audio_download(video_url, download_dir_list, playlist):
             video = YouTube(video_url)
             audio = video.streams.filter(only_audio=True).order_by('abr').desc().first()
             info = video.vid_info
-            full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '')
+            full_title = (info['videoDetails']['author'] + ' - ' + info['videoDetails']['title']).replace('"', '').replace('.', '').replace('*', '').replace(':', '').replace('/', '').replace('\\', '').replace('|', '').replace('<', '').replace('>', '').replace('?', '').replace('!', '1')
             downloaded_file = audio.download(f'Songs/{download_dir}')
             mp3_file = f'Songs/{download_dir}/{full_title}' + '.mp3'
             audio_clip = AudioFileClip(downloaded_file)
